@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Assets Management — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap">
+                <img src="NEWSTI_Logo-removebg-preview.png" alt="STI Assets Management" />
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar"><span class="nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-label">Menu</div>
+
+            <a class="nav-item active" href="dashboard.html" data-label="Portfolio Overview">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Portfolio Overview</span>
+            </a>
+            <a class="nav-item" href="Myinvestments.html" data-label="My Investments">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">My Investments</span>
+            </a>
+
+            <a class="nav-item" href="Macro-economics.html" data-label="Macro Indicators">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Macro Indicators</span>
+            </a>
+
+
+            <div class="nav-label">Account</div>
+
+            <a class="nav-item" href="settings.html" data-label="Account">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Settings</span>
+            </a>
+
+            </a>
+            <a class="nav-item" href="support.html" data-label="Get Help">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Get Help</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="investor-chip">
+                <div class="avatar" id="sidebar-avatar">IK</div>
+                <div class="chip-info">
+                    <div class="iname" id="sidebar-investor-name">Isaac Kazeem</div>
+                    <div class="iid" id="sidebar-investor-id">ID: 03312</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn">
+                <span class="logout-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="logout-text">Sign Out</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <button class="mobile-open-pill hidden" id="mobile-open-pill">☰ Menu</button>
+
+    <!-- ═══════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════ -->
+    <main class="main" id="main-content">
+
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Portfolio Overview</h1>
+                <p>Welcome back, <span id="investor-name-display">Isaac Kazeem</span> — here's your portfolio at a
+                    glance</p>
+            </div>
+            <div class="topbar-right">
+                <div class="badge-date" id="statement-date">January 20, 2025</div>
+                <button class="notif-bell-btn" id="notif-bell-btn" aria-label="Notifications">
+                    🔔
+                    <span class="notif-bell-dot" id="notif-bell-dot"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- STAT CARDS -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon gold">💰</div>
+                <div class="stat-label">Investment Amount</div>
+                <div class="stat-value gold-text" id="stat-investment">₦5,000,000.00</div>
+                <div class="stat-badge">Principal</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">📈</div>
+                <div class="stat-label">Current Portfolio Value</div>
+                <div class="stat-value green-text" id="stat-portfolio">₦5,462,500.00</div>
+                <div class="stat-badge">↑ Growing</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue">🏦</div>
+                <div class="stat-label">Interest Accrued (To Date)</div>
+                <div class="stat-value" id="stat-accrued">₦462,500.00</div>
+                <div class="stat-badge" style="color:#6ab0ff;background:rgba(106,176,255,0.1)">Earned</div>
+            </div>
+        </div>
+
+        <!-- CONTENT GRID -->
+        <div class="content-grid">
+            <div class="left-col">
+
+                <!-- Investment Details -->
+                <div class="panel">
+                    <div class="panel-title">Investment Details</div>
+                    <table class="info-table">
+                        <tr>
+                            <td>Investment Amount</td>
+                            <td id="detail-amount">₦5,000,000.00</td>
+                        </tr>
+                        <tr>
+                            <td>Tenure</td>
+                            <td id="detail-tenure">12 Months</td>
+                        </tr>
+                        <tr>
+                            <td>Start Date</td>
+                            <td id="detail-start">July 20, 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Maturity Date</td>
+                            <td id="detail-maturity">July 20, 2025</td>
+                        </tr>
+                    </table>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span class="progress-label">Tenure Progress</span>
+                            <span class="progress-pct" id="progress-pct-hero">80%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <div class="progress-dates">
+                            <span id="progress-start-date">Jul 2024</span>
+                            <span id="progress-pct-label">50% complete</span>
+                            <span id="progress-end-date">Jul 2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Growth Chart -->
+                <div class="panel">
+                    <div class="panel-title">Portfolio Growth</div>
+                    <div class="chart-area">
+                        <svg class="chart-svg" viewBox="0 0 600 140" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#F68634" stop-opacity="0.25" />
+                                    <stop offset="100%" stop-color="#F68634" stop-opacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,120 L85,115 L170,105 L255,90 L340,78 L425,60 L510,45 L600,30 L600,140 L0,140 Z"
+                                fill="url(#chartGrad)" />
+                            <path d="M0,120 L85,115 L170,105 L255,90 L340,78 L425,60 L510,45 L600,30" fill="none"
+                                stroke="#F68634" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="0" cy="120" r="4" fill="#F68634" />
+                            <circle cx="85" cy="115" r="4" fill="#F68634" />
+                            <circle cx="170" cy="105" r="4" fill="#F68634" />
+                            <circle cx="255" cy="90" r="4" fill="#F68634" />
+                            <circle cx="340" cy="78" r="4" fill="#F68634" />
+                            <circle cx="425" cy="60" r="4" fill="#F68634" />
+                            <circle cx="510" cy="45" r="4" fill="#F68634" />
+                        </svg>
+                    </div>
+                    <div class="chart-labels">
+                        <span>Jul</span><span>Aug</span><span>Sep</span>
+                        <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Performance Summary -->
+            <div class="panel">
+                <div class="panel-title">Performance Summary</div>
+                <div class="perf-item">
+                    <span class="perf-key">Interest Rate (p.a.)</span>
+                    <span class="perf-val gold" id="perf-rate">18.5%</span>
+                </div>
+                <div class="perf-item">
+                    <span class="perf-key">Interest Accrued (To Date)</span>
+                    <span class="perf-val green" id="perf-accrued">₦462,500.00</span>
+                </div>
+                <div class="perf-item">
+                    <span class="perf-key">Current Portfolio Value</span>
+                    <span class="perf-val" id="perf-value">₦5,462,500.00</span>
+                </div>
+                <div class="perf-item">
+                    <span class="perf-key">Tenure Elapsed</span>
+                    <span class="perf-val" id="perf-elapsed">6 Months</span>
+                </div>
+                <div class="perf-item">
+                    <span class="perf-key">Months Remaining</span>
+                    <span class="perf-val" id="perf-remaining">6 Months</span>
+                </div>
+                <div class="perf-item">
+                    <span class="perf-key">Projected Final Return</span>
+                    <span class="perf-val gold" id="perf-projected">₦5,925,000.00</span>
+                </div>
+                <div class="progress-mini">
+                    <div class="mini-label">Tenure Progress</div>
+                    <div class="mini-pct" id="perf-progress-pct">50%</div>
+                    <div class="mini-desc">Halfway through your 12-month term</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-note">
+            <strong>For enquiries</strong> — please contact your relationship manager or email
+            <a href="mailto:info@stiassetmgt.com">info@stiassetmgt.com</a> &nbsp;|&nbsp; +234 916 543 9544<br />
+            This statement is for informational purposes only and does not constitute a confirmation of final returns.
+            Investment values are subject to market conditions and contractual terms.
+        </div>
+        <!-- NOTIFICATIONS POPUP -->
+        <div class="notif-overlay" id="notif-overlay"></div>
+        <div class="notif-popup" id="notif-popup">
+            <div class="notif-popup-header">
+                <div class="notif-popup-title">Notifications</div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <button class="notif-mark-all" id="notif-mark-all">Mark all read</button>
+                    <button class="notif-popup-close" id="notif-popup-close">✕</button>
+                </div>
+            </div>
+            <div class="notif-popup-list" id="notif-popup-list">
+
+            </div>
+            <div class="notif-popup-footer">
+                <span id="notif-unread-label">4 unread notifications</span>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="login.js"></script>
+    <script src="dashboard-data.js"></script>
+</body>
+
+</html>

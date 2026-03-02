@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Assets Management — My Investments</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap">
+                <img src="NEWSTI_Logo-removebg-preview.png" alt="STI Assets Management" />
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar"><span class="nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-label">Menu</div>
+
+            <a class="nav-item active" href="dashboard.html" data-label="Portfolio Overview">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Portfolio Overview</span>
+            </a>
+            <a class="nav-item" href="Myinvestments.html" data-label="My Investments">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">My Investments</span>
+            </a>
+
+            <a class="nav-item" href="Macro-economics.html" data-label="Macro Indicators">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Macro Indicators</span>
+            </a>
+
+
+            <div class="nav-label">Account</div>
+
+            <a class="nav-item" href="settings.html" data-label="Account">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Settings</span>
+            </a>
+
+            </a>
+            <a class="nav-item" href="support.html" data-label="Get Help">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Get Help</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="investor-chip">
+                <div class="avatar" id="sidebar-avatar">IK</div>
+                <div class="chip-info">
+                    <div class="iname" id="sidebar-investor-name">Isaac Kazeem</div>
+                    <div class="iid" id="sidebar-investor-id">ID: 03312</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn">
+                <span class="logout-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="logout-text">Sign Out</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <button class="mobile-open-pill hidden" id="mobile-open-pill">☰ Menu</button>
+
+    <!-- ═══════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════ -->
+    <main class="main" id="main-content">
+
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>My Investments</h1>
+                <p>Manage and track all your active investment portfolios</p>
+            </div>
+            <div class="topbar-right">
+                <button class="btn-add" id="btn-add-investment">
+                    <span>＋</span> Request To Add Investment
+                </button>
+            </div>
+        </div>
+
+        <!-- SUMMARY STRIP -->
+        <div class="summary-strip">
+            <div class="summary-item">
+                <div class="summary-label">Total Invested</div>
+                <div class="summary-value" id="summary-total-invested">₦15,000,000.00</div>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-item">
+                <div class="summary-label">Total Current Value</div>
+                <div class="summary-value green" id="summary-total-value">₦16,387,500.00</div>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-item">
+                <div class="summary-label">Total Interest Earned</div>
+                <div class="summary-value orange" id="summary-total-interest">₦1,387,500.00</div>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-item">
+                <div class="summary-label">Active Investments</div>
+                <div class="summary-value" id="summary-active-count">3</div>
+            </div>
+        </div>
+
+        <!-- INVESTMENTS GRID -->
+        <div class="investments-grid" id="investments-grid">
+
+            <!-- Card 1: Fixed Income -->
+            <div class="inv-card" style="animation-delay:0.1s">
+                <div class="inv-card-header">
+                    <div class="inv-badge active-badge">Active</div>
+                    <div class="inv-ref">REF-2024-001</div>
+                </div>
+                <div class="inv-card-body">
+                    <div class="inv-type">Fixed Income Portfolio</div>
+                    <div class="inv-amount">₦5,000,000.00</div>
+                    <div class="inv-meta-grid">
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Interest Rate</div>
+                            <div class="inv-meta-val orange">18.5% p.a.</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Current Value</div>
+                            <div class="inv-meta-val green">₦5,462,500.00</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Start Date</div>
+                            <div class="inv-meta-val">Jul 20, 2024</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Maturity Date</div>
+                            <div class="inv-meta-val">Jul 20, 2025</div>
+                        </div>
+                    </div>
+                    <div class="inv-progress-wrap">
+                        <div class="inv-progress-header">
+                            <span class="inv-progress-label">Tenure Progress</span>
+                            <span class="inv-progress-pct">50%</span>
+                        </div>
+                        <div class="inv-progress-track">
+                            <div class="inv-progress-fill" data-width="50"></div>
+                        </div>
+                        <div class="inv-progress-dates">
+                            <span>Jul 2024</span><span>Jul 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="inv-card-footer">
+                    <button class="btn-liquidate"
+                        onclick="openLiquidateModal('REF-2024-001','₦5,000,000.00','₦5,462,500.00')">
+                        💸 Liquidate
+                    </button>
+                    <button class="btn-topup" onclick="openAddModal('REF-2024-001')">
+                        ➕ Top Up
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 2: Money Market -->
+            <div class="inv-card" style="animation-delay:0.2s">
+                <div class="inv-card-header">
+                    <div class="inv-badge active-badge">Active</div>
+                    <div class="inv-ref">REF-2024-002</div>
+                </div>
+                <div class="inv-card-body">
+                    <div class="inv-type">Money Market Fund</div>
+                    <div class="inv-amount">₦7,500,000.00</div>
+                    <div class="inv-meta-grid">
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Interest Rate</div>
+                            <div class="inv-meta-val orange">20.0% p.a.</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Current Value</div>
+                            <div class="inv-meta-val green">₦8,250,000.00</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Start Date</div>
+                            <div class="inv-meta-val">Apr 1, 2024</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Maturity Date</div>
+                            <div class="inv-meta-val">Apr 1, 2025</div>
+                        </div>
+                    </div>
+                    <div class="inv-progress-wrap">
+                        <div class="inv-progress-header">
+                            <span class="inv-progress-label">Tenure Progress</span>
+                            <span class="inv-progress-pct">80%</span>
+                        </div>
+                        <div class="inv-progress-track">
+                            <div class="inv-progress-fill" data-width="80"></div>
+                        </div>
+                        <div class="inv-progress-dates">
+                            <span>Apr 2024</span><span>Apr 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="inv-card-footer">
+                    <button class="btn-liquidate"
+                        onclick="openLiquidateModal('REF-2024-002','₦7,500,000.00','₦8,250,000.00')">
+                        💸 Liquidate
+                    </button>
+                    <button class="btn-topup" onclick="openAddModal('REF-2024-002')">
+                        ➕ Top Up
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card 3: Treasury Bills -->
+            <div class="inv-card" style="animation-delay:0.3s">
+                <div class="inv-card-header">
+                    <div class="inv-badge active-badge">Active</div>
+                    <div class="inv-ref">REF-2024-003</div>
+                </div>
+                <div class="inv-card-body">
+                    <div class="inv-type">Treasury Bills</div>
+                    <div class="inv-amount">₦2,500,000.00</div>
+                    <div class="inv-meta-grid">
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Interest Rate</div>
+                            <div class="inv-meta-val orange">22.1% p.a.</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Current Value</div>
+                            <div class="inv-meta-val green">₦2,675,000.00</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Start Date</div>
+                            <div class="inv-meta-val">Oct 10, 2024</div>
+                        </div>
+                        <div class="inv-meta-item">
+                            <div class="inv-meta-label">Maturity Date</div>
+                            <div class="inv-meta-val">Apr 10, 2025</div>
+                        </div>
+                    </div>
+                    <div class="inv-progress-wrap">
+                        <div class="inv-progress-header">
+                            <span class="inv-progress-label">Tenure Progress</span>
+                            <span class="inv-progress-pct">68%</span>
+                        </div>
+                        <div class="inv-progress-track">
+                            <div class="inv-progress-fill" data-width="68"></div>
+                        </div>
+                        <div class="inv-progress-dates">
+                            <span>Oct 2024</span><span>Apr 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="inv-card-footer">
+                    <button class="btn-liquidate"
+                        onclick="openLiquidateModal('REF-2024-003','₦2,500,000.00','₦2,675,000.00')">
+                        💸 Liquidate
+                    </button>
+                    <button class="btn-topup" onclick="openAddModal('REF-2024-003')">
+                        ➕ Top Up
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-note">
+            <strong>Disclaimer</strong> — Liquidation requests are subject to review and may take 2–5 business days to
+            process. Early liquidation may attract a penalty. Contact your relationship manager for details.
+            &nbsp;|&nbsp; <a href="/cdn-cgi/l/email-protection#d7beb9b1b897a4a3beb6a4a4b2a3bab0a3f9b4b8ba"><span
+                    class="__cf_email__"
+                    data-cfemail="93fafdf5fcd3e0e7faf2e0e0f6e7fef4e7bdf0fcfe">[email&#160;protected]</span></a>
+        </div>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════
+         LIQUIDATE MODAL
+    ═══════════════════════════════════════ -->
+    <div class="modal-overlay" id="liquidate-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Request Liquidation</h2>
+                <button class="modal-close" onclick="closeModal('liquidate-modal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-warning">
+                    ⚠️ Early liquidation may attract a penalty fee. Please confirm you wish to proceed.
+                </div>
+                <div class="modal-detail-row">
+                    <span>Reference</span><span id="liq-ref">—</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span>Principal Amount</span><span id="liq-principal">—</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span>Current Value</span><span id="liq-value" class="green">—</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span>Cost</span><span id="liq-cost" class="liqcolor">—</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span>Balance</span><span id="liq-bal" class="green">—</span>
+                </div>
+                <div class="modal-field">
+                    <label>Reason for Liquidation</label>
+                    <select id="liq-reason">
+                        <option value="">Select a reason</option>
+                        <option>Emergency funds needed</option>
+                        <option>Investment reallocation</option>
+                        <option>Portfolio restructuring</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="modal-field">
+                    <label>Additional Notes (optional)</label>
+                    <textarea id="liq-notes" placeholder="Provide any additional information..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('liquidate-modal')">Cancel</button>
+                <button class="btn-confirm-liquidate" onclick="submitLiquidate()">Confirm Liquidation Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         ADD / TOP UP MODAL
+    ═══════════════════════════════════════ -->
+    <div class="modal-overlay" id="add-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Add / Top Up Investment</h2>
+                <button class="modal-close" onclick="closeModal('add-modal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-field">
+                    <label>Investment Reference</label>
+                    <input type="text" id="add-ref" readonly />
+                </div>
+                <div class="modal-field">
+                    <label>Amount to Add (₦)</label>
+                    <input type="number" id="add-amount" placeholder="e.g. 500000" min="100000" />
+                </div>
+                <div class="modal-field">
+                    <label>Investment Type</label>
+                    <select id="add-type">
+                        <option value="">Select type</option>
+                        <option>Fixed Income Portfolio</option>
+                        <option>Money Market Fund</option>
+                        <option>Treasury Bills</option>
+                        <option>New Portfolio</option>
+                    </select>
+                </div>
+                <div class="modal-field">
+                    <label>Preferred Tenure</label>
+                    <select id="add-tenure">
+                        <option value="">Select tenure</option>
+                        <option>3 Months</option>
+                        <option>6 Months</option>
+                        <option>12 Months</option>
+                        <option>18 Months</option>
+                        <option>24 Months</option>
+                    </select>
+                </div>
+                <div class="modal-field">
+                    <label>Additional Notes (optional)</label>
+                    <textarea id="add-notes" placeholder="Any special instructions..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('add-modal')">Cancel</button>
+                <button class="btn-confirm-add" onclick="submitAdd()">Submit Request →</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <!-- PAYMENT BY TRANSFER POPUP -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Complete Payment by Transfer</h2>
+                <button class="modal-close" onclick="closePaymentModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div
+                    style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#475569;margin-bottom:6px;">
+                    Transfer Amount</div>
+                <div style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--blue);margin-bottom:20px;"
+                    id="payment-amount-display">₦0.00</div>
+                <div
+                    style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#475569;margin-bottom:12px;">
+                    Pay to Any of These Accounts</div>
+
+                <!-- Account 1 -->
+                <div class="payment-account-card">
+                    <div class="payment-bank-name">Zenith Bank</div>
+                    <div class="payment-account-row">
+                        <div>
+                            <div class="payment-account-label">Account Name</div>
+                            <div class="payment-account-value">STI Assets Management Ltd</div>
+                        </div>
+                    </div>
+                    <div class="payment-account-row">
+                        <div>
+                            <div class="payment-account-label">Account Number</div>
+                            <div class="payment-account-value mono" id="acct-1">1234567890</div>
+                        </div>
+                        <button class="payment-copy-btn" onclick="copyAccount('acct-1', this)">Copy</button>
+                    </div>
+                </div>
+
+                <!-- Account 2 -->
+                <div class="payment-account-card">
+                    <div class="payment-bank-name">GTBank</div>
+                    <div class="payment-account-row">
+                        <div>
+                            <div class="payment-account-label">Account Name</div>
+                            <div class="payment-account-value">STI Assets Management Ltd</div>
+                        </div>
+                    </div>
+                    <div class="payment-account-row">
+                        <div>
+                            <div class="payment-account-label">Account Number</div>
+                            <div class="payment-account-value mono" id="acct-2">0987654321</div>
+                        </div>
+                        <button class="payment-copy-btn" onclick="copyAccount('acct-2', this)">Copy</button>
+                    </div>
+                </div>
+
+                <!-- Payment Receipt Upload -->
+                <div class="modal-field" style="margin-top:20px;">
+                    <label>Payment Receipt</label>
+                    <div class="receipt-upload-area" id="receipt-upload-area"
+                        onclick="document.getElementById('receipt-file').click()">
+                        <div class="receipt-upload-icon">📎</div>
+                        <div class="receipt-upload-text">Click to upload or drag and drop</div>
+                        <div class="receipt-upload-hint">PNG, JPG, PDF — max 5MB</div>
+                        <input type="file" id="receipt-file" accept="image/png,image/jpeg,application/pdf"
+                            style="display:none" onchange="handleReceiptFile(this)" />
+                    </div>
+                    <div class="receipt-preview" id="receipt-preview" style="display:none">
+                        <div class="receipt-preview-info">
+                            <span class="receipt-file-icon">📄</span>
+                            <div>
+                                <div class="receipt-file-name" id="receipt-file-name"></div>
+                                <div class="receipt-file-size" id="receipt-file-size"></div>
+                            </div>
+                        </div>
+                        <button class="receipt-remove-btn" onclick="removeReceipt()">✕ Remove</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closePaymentModal()">Cancel</button>
+                <button class="btn-confirm-add" id="receipt-submit-btn" onclick="submitReceipt()">Submit
+                    Receipt</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="login.js"></script>
+    <script src="investments-data.js"></script>
+</body>
+
+</html>

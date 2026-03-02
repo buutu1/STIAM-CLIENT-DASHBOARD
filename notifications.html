@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Assets Management — Notifications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap">
+                <img src="STI_Logo-removebg-preview.png" alt="STI Assets Management" />
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Menu</div>
+            <a class="nav-item" href="dashboard.html" data-label="Portfolio Overview">
+                <span class="nav-icon">📊</span><span class="nav-text">Portfolio Overview</span>
+            </a>
+            <a class="nav-item" href="Myinvestments.html" data-label="My Investments">
+                <span class="nav-icon">📁</span><span class="nav-text">My Investments</span>
+            </a>
+
+            <a class="nav-item" href="Macro-economics.html" data-label="Macro Indicators">
+                <span class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span>
+            </a>
+
+            <div class="nav-label">Account</div>
+            <a class="nav-item" href="settings.html" data-label="Account">
+                <span class="nav-icon">⚙️</span><span class="nav-text">Account</span>
+            </a>
+            <a class="nav-item active" href="notifications.html" data-label="Notifications">
+                <span class="nav-icon">🔔</span><span class="nav-text">Notifications</span>
+            </a>
+            <a class="nav-item" href="support.html" data-label="Get Help">
+                <span class="nav-icon">🙋</span><span class="nav-text">Get Help</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+                <span class="toggle-arrow">&#8592;</span>
+                <span class="toggle-label">Collapse</span>
+            </button>
+            <div class="investor-chip">
+                <div class="avatar">IK</div>
+                <div class="chip-info">
+                    <div class="iname">Isaac Kazeem</div>
+                    <div class="iid">ID: 03312</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn">
+                <span class="logout-icon">🚪</span>
+                <span class="logout-text">Sign Out</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <button class="mobile-open-pill hidden" id="mobile-open-pill">☰ Menu</button>
+
+    <main class="main" id="main-content">
+
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Notifications</h1>
+                <p>Stay up to date with your portfolio activity and important alerts</p>
+            </div>
+            <div class="topbar-right">
+                <div class="badge-ref" id="unread-badge">4 Unread</div>
+            </div>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="notif-tabs">
+            <button class="notif-tab active" data-filter="all" onclick="filterNotifs('all', this)">
+                All <span class="tab-count" id="count-all">12</span>
+            </button>
+            <button class="notif-tab" data-filter="unread" onclick="filterNotifs('unread', this)">
+                Unread <span class="tab-count" id="count-unread">4</span>
+            </button>
+            <button class="notif-tab" data-filter="interest" onclick="filterNotifs('interest', this)">
+                Interest <span class="tab-count" id="count-interest">3</span>
+            </button>
+            <button class="notif-tab" data-filter="maturity" onclick="filterNotifs('maturity', this)">
+                Maturity <span class="tab-count" id="count-maturity">2</span>
+            </button>
+            <button class="notif-tab" data-filter="alert" onclick="filterNotifs('alert', this)">
+                Alerts <span class="tab-count" id="count-alert">2</span>
+            </button>
+            <button class="notif-tab" data-filter="statement" onclick="filterNotifs('statement', this)">
+                Statements <span class="tab-count" id="count-statement">3</span>
+            </button>
+            <button class="notif-tab" data-filter="system" onclick="filterNotifs('system', this)">
+                System <span class="tab-count" id="count-system">2</span>
+            </button>
+        </div>
+
+        <!-- Panel -->
+        <div class="panel">
+            <div class="notif-topbar">
+                <div class="notif-topbar-left">
+                    Showing <strong id="visible-count">12</strong> notifications
+                </div>
+                <button class="mark-all-btn" onclick="markAllRead()">✓ Mark all as read</button>
+            </div>
+
+            <div class="notif-list" id="notif-list">
+
+                <!-- 1 — Interest credited UNREAD -->
+                <div class="notif-item unread" data-type="interest" onclick="markRead(this)">
+                    <div class="notif-bubble interest">💰</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Interest Credited — REF-2024-001</div>
+                        <div class="notif-desc">₦77,083.33 in monthly interest has been credited to your portfolio for
+                            January 2025. Your current portfolio value is now ₦5,462,500.00.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Today, 8:00am</span>
+                            <span class="notif-tag interest">Interest</span>
+                        </div>
+                        <a class="notif-action" href="dashboard.html">View Portfolio →</a>
+                    </div>
+                    <div class="notif-dot"></div>
+                </div>
+
+                <!-- 2 — Maturity reminder UNREAD -->
+                <div class="notif-item unread" data-type="maturity" onclick="markRead(this)">
+                    <div class="notif-bubble maturity">📅</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Maturity Reminder — 6 Months to Go</div>
+                        <div class="notif-desc">Your investment REF-2024-001 (₦5,000,000) is due to mature on
+                            <strong>July 20, 2025</strong>. Your projected payout is ₦5,925,000.00. Please contact your
+                            relationship manager to discuss reinvestment options.
+                        </div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Yesterday, 9:00am</span>
+                            <span class="notif-tag maturity">Maturity</span>
+                        </div>
+                        <a class="notif-action" href="Myinvestments.html">View Investment →</a>
+                    </div>
+                    <div class="notif-dot"></div>
+                </div>
+
+                <!-- 3 — Liquidation request UNREAD -->
+                <div class="notif-item unread" data-type="alert" onclick="markRead(this)">
+                    <div class="notif-bubble alert">⏳</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Liquidation Request Under Review</div>
+                        <div class="notif-desc">Your liquidation request for REF-2024-001 (₦5,462,500.00) has been
+                            received and is currently under review by our team. You will be notified once a decision is
+                            made — typically within 2 business days.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Jan 19, 2025 · 2:14pm</span>
+                            <span class="notif-tag alert">Alert</span>
+                        </div>
+                    </div>
+                    <div class="notif-dot"></div>
+                </div>
+
+                <!-- 4 — Statement ready UNREAD -->
+                <div class="notif-item unread" data-type="statement" onclick="markRead(this)">
+                    <div class="notif-bubble statement">📄</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Your Mid-Tenure Statement is Ready</div>
+                        <div class="notif-desc">Your mid-tenure portfolio statement for REF-2024-001 (July–December
+                            2024) has been generated and sent to <strong><a href="/cdn-cgi/l/email-protection"
+                                    class="__cf_email__"
+                                    data-cfemail="a1c8cfd7c4d2d5ced3e1d2d5c8c0d2d2c4d5d28fc2cecc">[email&#160;protected]</a></strong>.
+                            You can also download it from the Statements page.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Jan 15, 2025 · 10:00am</span>
+                            <span class="notif-tag statement">Statement</span>
+                        </div>
+                        <a class="notif-action" href="statments.html">Go to Statements →</a>
+                    </div>
+                    <div class="notif-dot"></div>
+                </div>
+
+                <!-- 5 — Interest credited (read) -->
+                <div class="notif-item" data-type="interest" onclick="markRead(this)">
+                    <div class="notif-bubble interest">💰</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Interest Credited — REF-2024-001</div>
+                        <div class="notif-desc">₦77,083.33 in monthly interest has been credited to your portfolio for
+                            December 2024.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Dec 31, 2024 · 8:00am</span>
+                            <span class="notif-tag interest">Interest</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6 — Password change system -->
+                <div class="notif-item" data-type="system" onclick="markRead(this)">
+                    <div class="notif-bubble system">🔐</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Password Successfully Changed</div>
+                        <div class="notif-desc">Your account password was updated on December 28, 2024 at 3:42pm. If you
+                            did not make this change, please contact support immediately.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Dec 28, 2024 · 3:42pm</span>
+                            <span class="notif-tag system">System</span>
+                        </div>
+                        <a class="notif-action" href="support.html">Contact Support →</a>
+                    </div>
+                </div>
+
+                <!-- 7 — Interest credited (read) -->
+                <div class="notif-item" data-type="interest" onclick="markRead(this)">
+                    <div class="notif-bubble interest">💰</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Interest Credited — REF-2024-001</div>
+                        <div class="notif-desc">₦77,083.33 in monthly interest has been credited to your portfolio for
+                            November 2024.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Nov 30, 2024 · 8:00am</span>
+                            <span class="notif-tag interest">Interest</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8 — Maturity upcoming (read) -->
+                <div class="notif-item" data-type="maturity" onclick="markRead(this)">
+                    <div class="notif-bubble maturity">📅</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Maturity Reminder — 9 Months to Go</div>
+                        <div class="notif-desc">Your investment REF-2024-001 will mature in 9 months on July 20, 2025.
+                            Your projected total return is ₦5,925,000.00.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Oct 20, 2024 · 9:00am</span>
+                            <span class="notif-tag maturity">Maturity</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9 — Statement (read) -->
+                <div class="notif-item" data-type="statement" onclick="markRead(this)">
+                    <div class="notif-bubble statement">📄</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Q3 2024 Statement Sent to Your Email</div>
+                        <div class="notif-desc">Your portfolio statement for the period July–September 2024 has been
+                            sent to <a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                                data-cfemail="eb82859d8e989f8499ab989f828a98988e9f98c5888486">[email&#160;protected]</a>.
+                        </div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Oct 1, 2024 · 10:00am</span>
+                            <span class="notif-tag statement">Statement</span>
+                        </div>
+                        <a class="notif-action" href="statments.html">Go to Statements →</a>
+                    </div>
+                </div>
+
+                <!-- 10 — Top-up alert (read) -->
+                <div class="notif-item" data-type="alert" onclick="markRead(this)">
+                    <div class="notif-bubble alert">✅</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Top-Up Confirmed — REF-2024-002</div>
+                        <div class="notif-desc">Your top-up of ₦2,500,000 for investment REF-2024-002 has been received
+                            and confirmed. Your new principal balance is ₦7,500,000.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Aug 15, 2024 · 11:30am</span>
+                            <span class="notif-tag alert">Alert</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11 — Statement (read) -->
+                <div class="notif-item" data-type="statement" onclick="markRead(this)">
+                    <div class="notif-bubble statement">📄</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Welcome Statement — REF-2024-001</div>
+                        <div class="notif-desc">Your investment confirmation and welcome statement for REF-2024-001 has
+                            been sent to your email. Thank you for investing with STI Assets Management.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Jul 20, 2024 · 2:00pm</span>
+                            <span class="notif-tag statement">Statement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12 — System: account created (read) -->
+                <div class="notif-item" data-type="system" onclick="markRead(this)">
+                    <div class="notif-bubble system">👤</div>
+                    <div class="notif-body">
+                        <div class="notif-title">Investor Account Created</div>
+                        <div class="notif-desc">Welcome to STI Assets Management, Isaac Kazeem! Your investor account
+                            (ID: 03312) has been successfully created. Your relationship manager Adaeze Okonkwo will be
+                            in touch shortly.</div>
+                        <div class="notif-meta">
+                            <span class="notif-time">Jul 18, 2024 · 10:00am</span>
+                            <span class="notif-tag system">System</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Empty state -->
+            <div class="notif-empty" id="notif-empty">
+                <div class="notif-empty-icon">🔔</div>
+                <h3>No notifications here</h3>
+                <p>You're all caught up in this category.</p>
+            </div>
+
+            <div class="notif-footer">
+                <span id="footer-count">Showing 12 of 12 notifications</span>
+                <button class="load-more-btn" id="load-more-btn"
+                    onclick="showToast('All notifications are loaded.')">Load More</button>
+            </div>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div class="notif-settings-panel">
+            <div class="notif-settings-title">🔔 Notification Preferences</div>
+
+            <div class="notif-setting-row">
+                <div class="notif-setting-info">
+                    <div class="notif-setting-label">Monthly Interest Credited</div>
+                    <div class="notif-setting-desc">Get notified each time interest is credited to your portfolio</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="prefChanged(this, 'Interest credited')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notif-setting-row">
+                <div class="notif-setting-info">
+                    <div class="notif-setting-label">Maturity Reminders</div>
+                    <div class="notif-setting-desc">Receive alerts at 9, 6, and 3 months before your investment matures
+                    </div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="prefChanged(this, 'Maturity reminders')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notif-setting-row">
+                <div class="notif-setting-info">
+                    <div class="notif-setting-label">Liquidation Updates</div>
+                    <div class="notif-setting-desc">Get notified when your liquidation request is approved or rejected
+                    </div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="prefChanged(this, 'Liquidation updates')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notif-setting-row">
+                <div class="notif-setting-info">
+                    <div class="notif-setting-label">Statement Ready</div>
+                    <div class="notif-setting-desc">Be notified when a new statement has been generated for you</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="prefChanged(this, 'Statement alerts')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notif-setting-row">
+                <div class="notif-setting-info">
+                    <div class="notif-setting-label">Top-Up Confirmations</div>
+                    <div class="notif-setting-desc">Confirm when additional funds have been received and posted</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="prefChanged(this, 'Top-up confirmations')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notif-setting-row">
+                <div class="notif-setting-info">
+                    <div class="notif-setting-label">Security Alerts</div>
+                    <div class="notif-setting-desc">Get notified of password changes and new login activity</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" checked onchange="prefChanged(this, 'Security alerts')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="notif-setting-row">
+                <div class="notif-setting-info">
+                    <div class="notif-setting-label">Macro Indicator Updates</div>
+                    <div class="notif-setting-desc">Get notified when key economic indicators are refreshed</div>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" onchange="prefChanged(this, 'Macro updates')">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+        </div>
+
+        <div class="footer-note" style="margin-top:20px">
+            <strong>Notifications</strong> — All alerts are also sent to your registered email address. To update your
+            email, visit <a href="settings.html">Account Settings</a>. &nbsp;|&nbsp; Contact <a
+                href="support.html">Support</a> if you believe you have missed an important notification.
+        </div>
+        <script src="login.js"></script>
+    </main>
+
+    <div class="toast" id="toast"></div>

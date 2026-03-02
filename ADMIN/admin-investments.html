@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — Investments</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div>
+        </div>
+        <div class="admin-badge">
+            <div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item" href="admin-dashboard.html" data-label="Dashboard"><span class="nav-icon">📊</span><span
+                    class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item" href="admin-investors.html" data-label="Investor Management"><span
+                    class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item active" href="admin-investments.html" data-label="Investments"><span
+                    class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item" href="admin-liquidations.html" data-label="Liquidation Requests"><span
+                    class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item" href="admin-support.html" data-label="Support Inbox"><span
+                    class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item" href="admin-statements.html" data-label="Statement Generator"><span
+                    class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+
+            <a class="nav-item" href="admin-macro.html" data-label="Macro Indicators"><span
+                    class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a><a class="nav-item"
+                href="admin-users.html" data-label="User Management"><span class="nav-icon">🔑</span><span
+                    class="nav-text">User Management</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span
+                    class="toggle-label">Collapse</span></button>
+            <div class="investor-chip">
+                <div class="avatar">AD</div>
+                <div class="chip-info">
+                    <div class="iname">Admin User</div>
+                    <div class="iid">STI Staff</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign
+                    Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Investments</h1>
+                <p>Create, view, and manage all active investment portfolios</p>
+            </div>
+            <div class="topbar-right">
+                <button class="btn-orange" onclick="openModal('add-investment-modal')">＋ Create Investment</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <div class="stat-label">Total Investments</div>
+                <div class="stat-value">412</div>
+                <div class="stat-badge">All time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Active</div>
+                <div class="stat-value green">318</div>
+                <div class="stat-badge green">Running</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏁</div>
+                <div class="stat-label">Matured</div>
+                <div class="stat-value">86</div>
+                <div class="stat-badge">Paid out</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-label">Pending Approval</div>
+                <div class="stat-value orange">8</div>
+                <div class="stat-badge orange">Top-up requests</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="table-controls">
+                <input class="search-input" id="inv-search" placeholder="🔍  Search by ref, investor or type…"
+                    oninput="filterTable('inv-search','inv-table')" />
+                <select class="filter-select">
+                    <option>All Types</option>
+                    <option>Fixed Income</option>
+                    <option>Money Market</option>
+                    <option>Treasury Bills</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>Matured</option>
+                    <option>Pending</option>
+                </select>
+                <button class="btn-ghost">⬇ Export</button>
+            </div>
+
+            <table class="data-table" id="inv-table">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Investor</th>
+                        <th>Type</th>
+                        <th>Principal</th>
+                        <th>Rate</th>
+                        <th>Tenure</th>
+                        <th>Start</th>
+                        <th>Maturity</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="mono bold">REF-2024-001</td>
+                        <td class="bold">Isaac Kazeem</td>
+                        <td>Fixed Income</td>
+                        <td class="orange">₦5,000,000</td>
+                        <td>18.5%</td>
+                        <td>12 months</td>
+                        <td class="mono">Jul 20, 2024</td>
+                        <td class="mono">Jul 20, 2025</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="showToast('Investment details loaded.','success')">View</button><button
+                                    class="btn-danger"
+                                    onclick="showToast('Maturity processing initiated.','success')">Mature</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mono bold">REF-2024-002</td>
+                        <td class="bold">Isaac Kazeem</td>
+                        <td>Money Market</td>
+                        <td class="orange">₦7,500,000</td>
+                        <td>20.0%</td>
+                        <td>12 months</td>
+                        <td class="mono">Apr 1, 2024</td>
+                        <td class="mono">Apr 1, 2025</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost">View</button><button class="btn-danger"
+                                    onclick="showToast('Maturity processing initiated.','success')">Mature</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mono bold">REF-2024-007</td>
+                        <td class="bold">Amara Obi</td>
+                        <td>Fixed Income</td>
+                        <td class="orange">₦3,000,000</td>
+                        <td>18.5%</td>
+                        <td>6 months</td>
+                        <td class="mono">Oct 1, 2024</td>
+                        <td class="mono">Apr 1, 2025</td>
+                        <td><span class="pill pill-pending">Pending Liq.</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost">View</button><a
+                                    href="admin-liquidations.html" class="btn-danger">Review</a></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mono bold">REF-2024-012</td>
+                        <td class="bold">Femi Adebayo</td>
+                        <td>Treasury Bills</td>
+                        <td class="orange">₦8,000,000</td>
+                        <td>22.1%</td>
+                        <td>12 months</td>
+                        <td class="mono">Jan 15, 2024</td>
+                        <td class="mono">Jan 15, 2025</td>
+                        <td><span class="pill pill-matured">Matured</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost">View</button><button class="btn-ghost"
+                                    onclick="showToast('Statement sent.','success')">📄</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="mono bold">REF-2024-019</td>
+                        <td class="bold">Zainab Musa</td>
+                        <td>Money Market</td>
+                        <td class="orange">₦5,000,000</td>
+                        <td>20.0%</td>
+                        <td>6 months</td>
+                        <td class="mono">Nov 1, 2024</td>
+                        <td class="mono">May 1, 2025</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost">View</button><button class="btn-danger"
+                                    onclick="showToast('Maturity processing initiated.','success')">Mature</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <span>Showing 5 of 318 active investments</span>
+                <div class="pagination">
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create Investment Modal -->
+    <div class="modal-overlay" id="add-investment-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Investment</h2>
+                <button class="modal-close" onclick="closeModal('add-investment-modal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-field">
+                    <label>Investor Name</label>
+                    <select id="inv-investor">
+                        <option value="">Select investor…</option>
+                        <option>Isaac Kazeem</option>
+                        <option>Amara Obi</option>
+                        <option>Femi Adebayo</option>
+                        <option>Chidera Nwosu</option>
+                        <option>Zainab Musa</option>
+                        <option>Bola Tinuke</option>
+                    </select>
+                </div>
+                <div class="modal-field">
+                    <div class="input-row">
+                        <div>
+                            <label>Investment Type</label>
+                            <select id="inv-type">
+                                <option value="">Select type…</option>
+                                <option>Fixed Income</option>
+                                <option>Money Market</option>
+                                <option>Treasury Bills</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Tenure</label>
+                            <select id="inv-tenure">
+                                <option value="">Select…</option>
+                                <option>3 Months</option>
+                                <option>6 Months</option>
+                                <option>12 Months</option>
+                                <option>18 Months</option>
+                                <option>24 Months</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-field">
+                    <div class="input-row">
+                        <div><label>Principal Amount (₦)</label><input type="number" id="inv-amount"
+                                placeholder="e.g. 5000000" /></div>
+                        <div><label>Interest Rate (% p.a.)</label><input type="number" id="inv-rate"
+                                placeholder="e.g. 18.5" step="0.1" /></div>
+                    </div>
+                </div>
+                <div class="modal-field">
+                    <div class="input-row">
+                        <div><label>Start Date</label><input type="date" id="inv-start" /></div>
+                        <div><label>Reference No.</label><input type="text" id="inv-ref-no" placeholder="Auto-generated"
+                                readonly /></div>
+                    </div>
+                </div>
+                <div class="modal-field">
+                    <label>Notes (optional)</label>
+                    <textarea id="inv-notes" placeholder="Any special terms or conditions…"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('add-investment-modal')">Cancel</button>
+                <button class="btn-save" onclick="submitNewInvestment()">Create Investment</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+    <script>
+        // Auto-generate reference number
+        document.getElementById("inv-start")?.addEventListener("change", function () {
+            const ref = "REF-" + new Date().getFullYear() + "-" + Math.floor(Math.random() * 900 + 100);
+            document.getElementById("inv-ref-no").value = ref;
+        });
+    </script>
+</body>
+
+</html>

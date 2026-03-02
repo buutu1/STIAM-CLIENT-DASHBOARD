@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Assets Management — Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap">
+                <img src="NEWSTI_Logo-removebg-preview.png" alt="STI Assets Management" />
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar"><span class="nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+                    </svg>
+                </span>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-label">Menu</div>
+
+            <a class="nav-item active" href="dashboard.html" data-label="Portfolio Overview">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Portfolio Overview</span>
+            </a>
+            <a class="nav-item" href="Myinvestments.html" data-label="My Investments">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">My Investments</span>
+            </a>
+
+            <a class="nav-item" href="Macro-economics.html" data-label="Macro Indicators">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Macro Indicators</span>
+            </a>
+
+
+            <div class="nav-label">Account</div>
+
+            <a class="nav-item" href="settings.html" data-label="Account">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                            <path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Settings</span>
+            </a>
+
+            </a>
+            <a class="nav-item" href="support.html" data-label="Get Help">
+                <span class="nav-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                    </span>
+                </span>
+                <span class="nav-text">Get Help</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="investor-chip">
+                <div class="avatar" id="sidebar-avatar">IK</div>
+                <div class="chip-info">
+                    <div class="iname" id="sidebar-investor-name">Isaac Kazeem</div>
+                    <div class="iid" id="sidebar-investor-id">ID: 03312</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn">
+                <span class="logout-icon"><span class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75" />
+                        </svg>
+                    </span>
+                </span>
+                <span class="logout-text">Sign Out</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <button class="mobile-open-pill hidden" id="mobile-open-pill">☰ Menu</button>
+
+    <!-- ═══════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════ -->
+    <main class="main" id="main-content">
+
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Account</h1>
+                <p>Manage your profile details and account security</p>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="settings-tabs">
+            <button class="stab active" data-tab="profile">👤 Profile Details</button>
+            <button class="stab" data-tab="password">🔒 Password Management</button>
+        </div>
+
+        <!-- ══════════════════════════════════
+             PROFILE TAB
+        ══════════════════════════════════ -->
+        <div class="tab-panel active" id="tab-profile">
+            <div class="account-layout">
+
+                <!-- Profile Form -->
+                <div class="settings-panel">
+                    <div class="settings-panel-title">Profile Details</div>
+                    <div class="settings-panel-desc">Manage your personal information and contact details.</div>
+
+                    <div class="sform-row">
+                        <div class="sform-group">
+                            <label>First Name</label>
+                            <input type="text" id="first-name" placeholder="e.g. Isaac" value="Isaac" />
+                        </div>
+                        <div class="sform-group">
+                            <label>Last Name</label>
+                            <input type="text" id="last-name" placeholder="e.g. Kazeem" value="Kazeem" />
+                        </div>
+                    </div>
+
+                    <div class="sform-row">
+                        <div class="sform-group">
+                            <label>Date of Birth</label>
+                            <input type="date" id="dob" value="1985-06-15" />
+                        </div>
+                        <div class="sform-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="e.g. +234 916 543 9544"
+                                value="+234 916 543 9544" />
+                        </div>
+                    </div>
+
+                    <div class="sform-group">
+                        <label>Email Address</label>
+                        <input type="email" id="email-field" placeholder="e.g. name@example.com"
+                            value="investor@stiassets.com" />
+                    </div>
+
+                    <div class="sform-group">
+                        <label>Residential Address</label>
+                        <textarea id="address" rows="2"
+                            placeholder="Enter your full residential address">12 Ademola Adetokunbo Crescent, Victoria Island</textarea>
+                    </div>
+
+                    <div class="sform-row">
+                        <div class="sform-group">
+                            <label>State of Residence</label>
+                            <select id="state">
+                                <option value="">Select state</option>
+                                <option>Abia</option>
+                                <option>Adamawa</option>
+                                <option>Akwa Ibom</option>
+                                <option>Anambra</option>
+                                <option>Bauchi</option>
+                                <option>Bayelsa</option>
+                                <option>Benue</option>
+                                <option>Borno</option>
+                                <option>Cross River</option>
+                                <option>Delta</option>
+                                <option>Ebonyi</option>
+                                <option>Edo</option>
+                                <option>Ekiti</option>
+                                <option>Enugu</option>
+                                <option>FCT - Abuja</option>
+                                <option>Gombe</option>
+                                <option>Imo</option>
+                                <option>Jigawa</option>
+                                <option>Kaduna</option>
+                                <option>Kano</option>
+                                <option>Katsina</option>
+                                <option>Kebbi</option>
+                                <option>Kogi</option>
+                                <option>Kwara</option>
+                                <option selected>Lagos</option>
+                                <option>Nasarawa</option>
+                                <option>Niger</option>
+                                <option>Ogun</option>
+                                <option>Ondo</option>
+                                <option>Osun</option>
+                                <option>Oyo</option>
+                                <option>Plateau</option>
+                                <option>Rivers</option>
+                                <option>Sokoto</option>
+                                <option>Taraba</option>
+                                <option>Yobe</option>
+                                <option>Zamfara</option>
+                            </select>
+                        </div>
+                        <div class="sform-group">
+                            <label>Local Government Area</label>
+                            <input type="text" id="lga" placeholder="e.g. Eti-Osa" value="Eti-Osa" />
+                        </div>
+                    </div>
+
+                    <div class="sform-group">
+                        <label>Country of Residence</label>
+                        <select id="country">
+                            <option selected>Nigeria</option>
+                            <option>United Kingdom</option>
+                            <option>United States</option>
+                            <option>Canada</option>
+                            <option>Ghana</option>
+                            <option>South Africa</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <div class="settings-actions">
+                        <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+                    </div>
+                </div>
+
+                <!-- Account Summary + Notifications -->
+                <div class="account-side">
+
+                    <div class="settings-panel">
+                        <div class="settings-panel-title">Account Summary</div>
+                        <div class="avatar-upload-area">
+                            <div class="avatar" id="account-avatar">IK</div>
+                            <div class="avatar-info">
+                                <div class="iname" id="account-investor-name">Isaac Kazeem</div>
+                                <div class="iid" id="account-investor-id">ID: 03312</div>
+                            </div>
+                        </div>
+                        <div class="status-row">
+                            <span>Account Type</span>
+                            <span class="status-badge blue-badge">Premium Investor</span>
+                        </div>
+                        <div class="status-row">
+                            <span>KYC Status</span>
+                            <span class="status-badge green-badge">✓ Verified</span>
+                        </div>
+                        <div class="status-row">
+                            <span>BVN Status</span>
+                            <span class="status-badge green-badge">✓ Verified</span>
+                        </div>
+                        <div class="status-row">
+                            <span>Member Since</span>
+                            <span class="status-val">January 2022</span>
+                        </div>
+                        <div class="status-row">
+                            <span>Investor ID</span>
+                            <span class="status-val" id="account-id-display"
+                                style="font-family:'DM Mono',monospace">03312</span>
+                        </div>
+                        <div class="status-row">
+                            <span>Relationship Manager</span>
+                            <span class="status-val" id="account-rm">Adaeze Okonkwo</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-panel">
+                        <div class="settings-panel-title">Notifications</div>
+                        <div class="toggle-setting">
+                            <div>
+                                <div class="toggle-setting-label">Investment Alerts</div>
+                                <div class="toggle-setting-sub">Interest credited, maturity reminders</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-setting">
+                            <div>
+                                <div class="toggle-setting-label">Monthly Statements</div>
+                                <div class="toggle-setting-sub">Delivered to your email</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-setting">
+                            <div>
+                                <div class="toggle-setting-label">Market Updates</div>
+                                <div class="toggle-setting-sub">Weekly intelligence reports</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             PASSWORD TAB
+        ══════════════════════════════════ -->
+        <div class="tab-panel" id="tab-password">
+            <div class="account-layout">
+
+                <!-- Change Password -->
+                <div class="settings-panel">
+                    <div class="settings-panel-title">Change Password</div>
+                    <div class="settings-panel-desc">Use a strong password of at least 8 characters with a mix of
+                        letters, numbers, and symbols.</div>
+
+                    <div class="sform-group">
+                        <label>Current Password</label>
+                        <div class="password-wrap">
+                            <input type="password" id="current-pw" placeholder="Enter your current password" />
+                            <button class="pw-toggle" onclick="togglePw('current-pw', this)">👁</button>
+                        </div>
+                    </div>
+
+                    <div class="sform-group">
+                        <label>New Password</label>
+                        <div class="password-wrap">
+                            <input type="password" id="new-pw" placeholder="Enter new password"
+                                oninput="checkStrength(this.value)" />
+                            <button class="pw-toggle" onclick="togglePw('new-pw', this)">👁</button>
+                        </div>
+                        <div class="pw-strength-bar">
+                            <div class="pw-strength-fill" id="pw-strength-fill"></div>
+                        </div>
+                        <div class="pw-strength-label" id="pw-strength-label"></div>
+                    </div>
+
+                    <div class="sform-group">
+                        <label>Confirm New Password</label>
+                        <div class="password-wrap">
+                            <input type="password" id="confirm-pw" placeholder="Repeat your new password" />
+                            <button class="pw-toggle" onclick="togglePw('confirm-pw', this)">👁</button>
+                        </div>
+                    </div>
+
+                    <div class="pw-rules">
+                        <div class="pw-rule" id="rule-length">✗ At least 8 characters</div>
+                        <div class="pw-rule" id="rule-upper">✗ At least one uppercase letter</div>
+                        <div class="pw-rule" id="rule-number">✗ At least one number</div>
+                        <div class="pw-rule" id="rule-special">✗ At least one special character (!@#$%)</div>
+                    </div>
+
+                    <div class="settings-actions">
+                        <button class="btn-save" onclick="changePassword()">Update Password</button>
+                    </div>
+                </div>
+
+                <!-- 2FA + Sessions -->
+                <div class="account-side">
+
+                    <div class="settings-panel">
+                        <div class="settings-panel-title">Two-Factor Authentication</div>
+                        <div class="settings-panel-desc">Add an extra layer of security to your login.</div>
+                        <div class="toggle-setting">
+                            <div>
+                                <div class="toggle-setting-label">SMS Authentication</div>
+                                <div class="toggle-setting-sub">Code sent to +234 916 543 9544</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-setting">
+                            <div>
+                                <div class="toggle-setting-label">Email Authentication</div>
+                                <div class="toggle-setting-sub">Code sent to your email</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" />
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <strong>Note</strong> — For bank account changes or KYC updates, please contact your relationship manager
+            directly at <a href="/cdn-cgi/l/email-protection#f49d9a929bb487809d9587879180999380da979b99"><span
+                    class="__cf_email__"
+                    data-cfemail="c1a8afa7ae81b2b5a8a0b2b2a4b5aca6b5efa2aeac">[email&#160;protected]</span></a>
+            &nbsp;|&nbsp; +234 916 543 9544
+        </div>
+
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="login.js"></script>
+
+</body>
+
+</html>

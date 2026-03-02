@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — User Management</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+        .role-tag {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .role-admin {
+            background: rgba(246, 134, 52, 0.12);
+            color: var(--orange-dark);
+        }
+
+        .role-investor {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        .role-manager {
+            background: rgba(22, 163, 74, 0.1);
+            color: var(--success);
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div>
+        </div>
+        <div class="admin-badge">
+            <div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item" href="admin-dashboard.html" data-label="Dashboard"><span class="nav-icon">📊</span><span
+                    class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item" href="admin-investors.html" data-label="Investor Management"><span
+                    class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item" href="admin-investments.html" data-label="Investments"><span
+                    class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item" href="admin-liquidations.html" data-label="Liquidation Requests"><span
+                    class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item" href="admin-support.html" data-label="Support Inbox"><span
+                    class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item" href="admin-statements.html" data-label="Statement Generator"><span
+                    class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+            <a class="nav-item active" href="admin-users.html" data-label="User Management"><span
+                    class="nav-icon">🔑</span><span class="nav-text">User Management</span></a>
+            <a class="nav-item" href="admin-macro.html" data-label="Macro Indicators"><span
+                    class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span
+                    class="toggle-label">Collapse</span></button>
+            <div class="investor-chip">
+                <div class="avatar">AD</div>
+                <div class="chip-info">
+                    <div class="iname">Admin User</div>
+                    <div class="iid">STI Staff</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign
+                    Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>User Management</h1>
+                <p>Create accounts, manage roles, and control access for all platform users</p>
+            </div>
+            <div class="topbar-right">
+                <button class="btn-orange" onclick="openModal('create-user-modal')">＋ Create Account</button>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-label">Total Users</div>
+                <div class="stat-value">261</div>
+                <div class="stat-badge">All roles</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏦</div>
+                <div class="stat-label">Investors</div>
+                <div class="stat-value">247</div>
+                <div class="stat-badge green">Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔑</div>
+                <div class="stat-label">Admin Staff</div>
+                <div class="stat-value orange">8</div>
+                <div class="stat-badge orange">STI Team</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⛔</div>
+                <div class="stat-label">Suspended</div>
+                <div class="stat-value red">2</div>
+                <div class="stat-badge red">Locked out</div>
+            </div>
+        </div>
+
+        <!-- Staff / Admin -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">Admin & Staff Accounts</div>
+                <button class="btn-ghost" onclick="openModal('create-user-modal')">＋ Add Staff</button>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Last Login</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bold">Super Admin</td>
+                        <td class="mono">admin@stiassets.com</td>
+                        <td><span class="role-tag role-admin">Super Admin</span></td>
+                        <td class="mono">Today, 9:00am</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost" disabled>Protected</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Adaeze Okonkwo</td>
+                        <td class="mono">adaeze@stiassets.com</td>
+                        <td><span class="role-tag role-manager">Relationship Mgr</span></td>
+                        <td class="mono">Today, 10:15am</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="showToast('Password reset sent to Adaeze.','success')">Reset
+                                    PW</button><button class="btn-danger"
+                                    onclick="suspendUser('Adaeze Okonkwo')">Suspend</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Tunde Bello</td>
+                        <td class="mono">tunde@stiassets.com</td>
+                        <td><span class="role-tag role-manager">Relationship Mgr</span></td>
+                        <td class="mono">Yesterday, 4:30pm</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="showToast('Password reset sent to Tunde.','success')">Reset
+                                    PW</button><button class="btn-danger"
+                                    onclick="suspendUser('Tunde Bello')">Suspend</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Ngozi Eze</td>
+                        <td class="mono">ngozi@stiassets.com</td>
+                        <td><span class="role-tag role-manager">Relationship Mgr</span></td>
+                        <td class="mono">Jan 18, 2025</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="showToast('Password reset sent to Ngozi.','success')">Reset
+                                    PW</button><button class="btn-danger"
+                                    onclick="suspendUser('Ngozi Eze')">Suspend</button></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Investors -->
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">Investor Accounts</div>
+                <div style="display:flex;gap:10px">
+                    <input class="search-input" id="user-search" placeholder="🔍  Search…"
+                        oninput="filterTable('user-search','user-table')" style="width:220px" />
+                    <select class="filter-select">
+                        <option>All</option>
+                        <option>Active</option>
+                        <option>Pending KYC</option>
+                        <option>Suspended</option>
+                    </select>
+                </div>
+            </div>
+            <table class="data-table" id="user-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Investor ID</th>
+                        <th>KYC</th>
+                        <th>Last Login</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bold">Isaac Kazeem</td>
+                        <td class="mono">investor@stiassets.com</td>
+                        <td class="mono">03312</td>
+                        <td><span class="pill pill-active">Verified</span></td>
+                        <td class="mono">Today</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="resetUserPassword('Isaac Kazeem')">Reset PW</button><button
+                                    class="btn-danger" onclick="suspendUser('Isaac Kazeem')">Suspend</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Amara Obi</td>
+                        <td class="mono">amara.obi@email.com</td>
+                        <td class="mono">03313</td>
+                        <td><span class="pill pill-active">Verified</span></td>
+                        <td class="mono">Yesterday</td>
+                        <td><span class="pill pill-active">Active</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="resetUserPassword('Amara Obi')">Reset PW</button><button class="btn-danger"
+                                    onclick="suspendUser('Amara Obi')">Suspend</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Chidera Nwosu</td>
+                        <td class="mono">chidera.n@email.com</td>
+                        <td class="mono">03315</td>
+                        <td><span class="pill pill-pending">Pending</span></td>
+                        <td class="mono">2 days ago</td>
+                        <td><span class="pill pill-pending">KYC Pending</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="resetUserPassword('Chidera Nwosu')">Reset PW</button><button
+                                    class="btn-success"
+                                    onclick="showToast('Chidera Nwosu KYC approved.','success')">Approve KYC</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Emeka Eze</td>
+                        <td class="mono">emeka.e@email.com</td>
+                        <td class="mono">03318</td>
+                        <td><span class="pill pill-rejected">Rejected</span></td>
+                        <td class="mono">5 days ago</td>
+                        <td><span class="pill pill-rejected">Suspended</span></td>
+                        <td>
+                            <div class="action-btns"><button class="btn-success"
+                                    onclick="showToast('Emeka Eze account reactivated.','success')">Reactivate</button><button
+                                    class="btn-ghost" onclick="resetUserPassword('Emeka Eze')">Reset PW</button></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-footer">
+                <span>Showing 4 of 247 investor accounts</span>
+                <div class="pagination">
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Create User Modal -->
+    <div class="modal-overlay" id="create-user-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Account</h2>
+                <button class="modal-close" onclick="closeModal('create-user-modal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-info">📧 Login credentials will be emailed to the investor automatically after account
+                    creation.</div>
+                <div class="modal-field">
+                    <div class="input-row">
+                        <div><label>First Name</label><input type="text" id="new-user-fname" placeholder="e.g. Isaac" />
+                        </div>
+                        <div><label>Last Name</label><input type="text" id="new-user-lname" placeholder="e.g. Kazeem" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-field">
+                    <label>Email Address</label>
+                    <input type="email" id="new-user-email" placeholder="investor@example.com" />
+                </div>
+                <div class="modal-field">
+                    <label>Phone Number</label>
+                    <input type="tel" id="new-user-phone" placeholder="+234 800 000 0000" />
+                </div>
+                <div class="modal-field">
+                    <div class="input-row">
+                        <div>
+                            <label>Account Role</label>
+                            <select id="new-user-role">
+                                <option value="investor">Investor</option>
+                                <option value="manager">Relationship Manager</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Relationship Manager</label>
+                            <select>
+                                <option>Adaeze Okonkwo</option>
+                                <option>Tunde Bello</option>
+                                <option>Ngozi Eze</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-field">
+                    <label>Temporary Password</label>
+                    <input type="text" id="new-user-pw" placeholder="Leave blank to auto-generate" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('create-user-modal')">Cancel</button>
+                <button class="btn-save" onclick="createUser()">Create Account & Send Credentials</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+    <script>
+        function createUser() {
+            const fname = document.getElementById("new-user-fname").value.trim();
+            const lname = document.getElementById("new-user-lname").value.trim();
+            const email = document.getElementById("new-user-email").value.trim();
+            if (!fname || !lname || !email) { showToast("⚠️ First name, last name and email are required.", "danger"); return; }
+            closeModal("create-user-modal");
+            showToast(`✅ Account created for ${fname} ${lname}. Login credentials sent to ${email}.`, "success");
+        }
+    </script>
+</body>
+
+</html>

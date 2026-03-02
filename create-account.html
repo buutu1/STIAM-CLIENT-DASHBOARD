@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Assets — Create Account</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        body {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .auth-page {
+            width: 100%;
+            max-width: 560px;
+        }
+
+        .auth-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 44px 44px;
+            box-shadow: 0 8px 40px rgba(3, 54, 105, 0.08);
+            animation: fadeUp 0.45s ease both;
+        }
+
+        .auth-logo {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .auth-logo img {
+            height: 52px;
+            width: auto;
+        }
+
+        .auth-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--blue);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+
+        .auth-sub {
+            font-size: 14px;
+            color: var(--text-md);
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* Progress steps */
+        .steps-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 32px;
+        }
+
+        .step-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            border: 2px solid var(--border);
+            background: var(--surface);
+            color: var(--text-dim);
+            transition: all 0.3s;
+            flex-shrink: 0;
+            cursor: default;
+        }
+
+        .step-dot.active {
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue);
+        }
+
+        .step-dot.done {
+            background: var(--success);
+            color: #fff;
+            border-color: var(--success);
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: var(--border);
+            max-width: 60px;
+            transition: background 0.3s;
+        }
+
+        .step-line.done {
+            background: var(--success);
+        }
+
+        .step-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .fgroup {
+            margin-bottom: 16px;
+        }
+
+        .fgroup label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #475569;
+            margin-bottom: 7px;
+        }
+
+        .fgroup input,
+        .fgroup select {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            padding: 12px 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--blue);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .fgroup input:focus,
+        .fgroup select:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(246, 134, 52, 0.1);
+        }
+
+        .fgroup input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .frow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            background: var(--blue);
+            border: none;
+            border-radius: var(--radius-xs);
+            padding: 14px;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .auth-btn:hover {
+            background: var(--blue-mid);
+            transform: translateY(-1px);
+        }
+
+        .auth-btn.orange {
+            background: var(--orange);
+            box-shadow: 0 2px 12px rgba(246, 134, 52, 0.3);
+        }
+
+        .auth-btn.orange:hover {
+            background: var(--orange-dark);
+        }
+
+        .btn-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .btn-back {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            padding: 12px 20px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-md);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-back:hover {
+            background: var(--border-lt);
+        }
+
+        .btn-next {
+            flex: 1;
+        }
+
+        .auth-error {
+            color: var(--danger);
+            font-size: 13px;
+            min-height: 18px;
+            margin-bottom: 6px;
+        }
+
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-md);
+        }
+
+        .auth-link a {
+            color: var(--orange);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .pw-strength-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .pw-strength-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s, background 0.3s;
+            width: 0;
+        }
+
+        .pw-rules {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .pw-rule {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+
+        .pw-rule.pass {
+            background: rgba(22, 163, 74, 0.08);
+            border-color: rgba(22, 163, 74, 0.25);
+            color: var(--success);
+        }
+
+        .summary-box {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 7px 0;
+            border-bottom: 1px solid var(--border-lt);
+            font-size: 13px;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-key {
+            color: var(--text-md);
+        }
+
+        .summary-val {
+            font-weight: 600;
+            color: var(--blue);
+        }
+
+        .success-card {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: rgba(22, 163, 74, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 8px;
+        }
+
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-md);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .terms-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--text-md);
+            line-height: 1.6;
+            margin: 14px 0;
+        }
+
+        .terms-check input {
+            margin-top: 3px;
+            accent-color: var(--blue);
+            flex-shrink: 0;
+        }
+
+        .terms-check a {
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        @media(max-width:520px) {
+            .frow {
+                grid-template-columns: 1fr
+            }
+
+            .auth-card {
+                padding: 28px 20px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <img src="STI_Logo-removebg-preview.png" alt="STI Assets Management" />
+            </div>
+            <div class="auth-title">Create Your Account</div>
+            <div class="auth-sub">Join STI Assets Management and start building sustainable wealth</div>
+
+            <!-- Step indicators -->
+            <div>
+                <div class="steps-nav">
+                    <div class="step-dot active" id="dot-1">1</div>
+                    <div class="step-line" id="line-1"></div>
+                    <div class="step-dot" id="dot-2">2</div>
+                    <div class="step-line" id="line-2"></div>
+                    <div class="step-dot" id="dot-3">3</div>
+                    <div class="step-line" id="line-3"></div>
+                    <div class="step-dot" id="dot-4">4</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:24px;">
+                    <span class="step-label" style="flex:1">Personal</span>
+                    <span class="step-label" style="flex:1">Contact</span>
+                    <span class="step-label" style="flex:1">Security</span>
+                    <span class="step-label" style="flex:1">Confirm</span>
+                </div>
+            </div>
+
+            <!-- ─── STEP 1: Personal Info ─── -->
+            <div class="form-step active" id="fs-1">
+                <div class="step-title">Personal Information</div>
+                <div class="step-desc">Tell us a bit about yourself so we can set up your investor profile.</div>
+                <div class="frow">
+                    <div class="fgroup"><label>First Name</label><input type="text" id="r-fname"
+                            placeholder="e.g. Isaac" /></div>
+                    <div class="fgroup"><label>Last Name</label><input type="text" id="r-lname"
+                            placeholder="e.g. Kazeem" /></div>
+                </div>
+                <div class="frow">
+                    <div class="fgroup"><label>Date of Birth</label><input type="date" id="r-dob" /></div>
+                    <div class="fgroup"><label>Gender</label><select id="r-gender">
+                            <option value="">Select…</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Prefer not to say</option>
+                        </select></div>
+                </div>
+                <div class="fgroup"><label>BVN (Bank Verification Number)</label><input type="text" id="r-bvn"
+                        placeholder="11-digit BVN" maxlength="11" /></div>
+                <div class="auth-error" id="err-1"></div>
+                <button class="auth-btn orange btn-next" onclick="nextStep(1)">Continue →</button>
+                <div class="auth-link">Already have an account? <a href="login-page.html">Sign In</a></div>
+            </div>
+
+            <!-- ─── STEP 2: Contact ─── -->
+            <div class="form-step" id="fs-2">
+                <div class="step-title">Contact Details</div>
+                <div class="step-desc">We'll use these to send you statements, alerts, and important updates.</div>
+                <div class="fgroup"><label>Email Address</label><input type="email" id="r-email"
+                        placeholder="investor@example.com" /></div>
+                <div class="fgroup"><label>Phone Number</label><input type="tel" id="r-phone"
+                        placeholder="+234 800 000 0000" /></div>
+                <div class="fgroup"><label>State of Residence</label>
+                    <select id="r-state">
+                        <option value="">Select state…</option>
+                        <option>Abia</option>
+                        <option>Adamawa</option>
+                        <option>Akwa Ibom</option>
+                        <option>Anambra</option>
+                        <option>Bauchi</option>
+                        <option>Bayelsa</option>
+                        <option>Benue</option>
+                        <option>Borno</option>
+                        <option>Cross River</option>
+                        <option>Delta</option>
+                        <option>Ebonyi</option>
+                        <option>Edo</option>
+                        <option>Ekiti</option>
+                        <option>Enugu</option>
+                        <option>FCT (Abuja)</option>
+                        <option>Gombe</option>
+                        <option>Imo</option>
+                        <option>Jigawa</option>
+                        <option>Kaduna</option>
+                        <option>Kano</option>
+                        <option>Katsina</option>
+                        <option>Kebbi</option>
+                        <option>Kogi</option>
+                        <option>Kwara</option>
+                        <option>Lagos</option>
+                        <option>Nasarawa</option>
+                        <option>Niger</option>
+                        <option>Ogun</option>
+                        <option>Ondo</option>
+                        <option>Osun</option>
+                        <option>Oyo</option>
+                        <option>Plateau</option>
+                        <option>Rivers</option>
+                        <option>Sokoto</option>
+                        <option>Taraba</option>
+                        <option>Yobe</option>
+                        <option>Zamfara</option>
+                    </select>
+                </div>
+                <div class="fgroup"><label>Home Address</label><input type="text" id="r-address"
+                        placeholder="e.g. 12 Adeola Odeku, Victoria Island" /></div>
+                <div class="auth-error" id="err-2"></div>
+                <div class="btn-nav">
+                    <button class="btn-back" onclick="prevStep(2)">← Back</button>
+                    <button class="auth-btn orange btn-next" onclick="nextStep(2)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ─── STEP 3: Security ─── -->
+            <div class="form-step" id="fs-3">
+                <div class="step-title">Set Your Password</div>
+                <div class="step-desc">Choose a strong, unique password to secure your portfolio.</div>
+                <div class="fgroup">
+                    <label>Password</label>
+                    <input type="password" id="r-pw" placeholder="At least 8 characters" oninput="evalPw(this.value)" />
+                    <div class="pw-strength-bar">
+                        <div class="pw-strength-fill" id="r-pw-fill"></div>
+                    </div>
+                    <div class="pw-rules">
+                        <span class="pw-rule" id="rl-len">8+ characters</span>
+                        <span class="pw-rule" id="rl-upper">Uppercase</span>
+                        <span class="pw-rule" id="rl-num">Number</span>
+                        <span class="pw-rule" id="rl-spec">Special char</span>
+                    </div>
+                </div>
+                <div class="fgroup">
+                    <label>Confirm Password</label>
+                    <input type="password" id="r-cpw" placeholder="Repeat your password" />
+                </div>
+                <div class="auth-error" id="err-3"></div>
+                <div class="btn-nav">
+                    <button class="btn-back" onclick="prevStep(3)">← Back</button>
+                    <button class="auth-btn orange btn-next" onclick="nextStep(3)">Continue →</button>
+                </div>
+            </div>
+
+            <!-- ─── STEP 4: Review & Submit ─── -->
+            <div class="form-step" id="fs-4">
+                <div class="step-title">Review & Confirm</div>
+                <div class="step-desc">Please review your details before submitting your application.</div>
+                <div class="summary-box" id="summary-box">
+                    <div class="summary-row"><span class="summary-key">Full Name</span><span class="summary-val"
+                            id="sum-name">—</span></div>
+                    <div class="summary-row"><span class="summary-key">Email</span><span class="summary-val"
+                            id="sum-email">—</span></div>
+                    <div class="summary-row"><span class="summary-key">Phone</span><span class="summary-val"
+                            id="sum-phone">—</span></div>
+                    <div class="summary-row"><span class="summary-key">State</span><span class="summary-val"
+                            id="sum-state">—</span></div>
+                    <div class="summary-row"><span class="summary-key">BVN</span><span class="summary-val"
+                            id="sum-bvn">—</span></div>
+                </div>
+                <div class="terms-check">
+                    <input type="checkbox" id="r-terms" />
+                    <span>I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a> of STI
+                        Assets Management Ltd. I confirm that all information provided is accurate.</span>
+                </div>
+                <div class="auth-error" id="err-4"></div>
+                <div class="btn-nav">
+                    <button class="btn-back" onclick="prevStep(4)">← Back</button>
+                    <button class="auth-btn orange btn-next" onclick="submitApplication()">Submit Application</button>
+                </div>
+            </div>
+
+            <!-- ─── SUCCESS ─── -->
+            <div class="form-step" id="fs-success">
+                <div class="success-card">
+                    <div class="success-icon">🎉</div>
+                    <div class="auth-title">Application Submitted!</div>
+                    <div class="auth-sub">Thank you for applying to STI Assets Management. Our team will review your
+                        application and contact you within <strong>1–2 business days</strong> with your login
+                        credentials.</div>
+                    <div
+                        style="background:var(--blue-light);border-radius:var(--radius-sm);padding:16px 18px;font-size:13px;color:var(--blue);line-height:1.7;margin-bottom:20px;text-align:left">
+                        📋 <strong>Next steps:</strong><br />
+                        1. Check your email for a confirmation message<br />
+                        2. Our team will verify your BVN and KYC documents<br />
+                        3. You'll receive your investor ID and login credentials<br />
+                        4. Make your first investment!
+                    </div>
+                    <a href="login-page.html" class="auth-btn"
+                        style="display:block;text-align:center;text-decoration:none;padding:14px">Back to Sign In</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script>
+        let currentStep = 1;
+
+        function showToast(msg) {
+            const t = document.getElementById("toast");
+            t.textContent = msg; t.classList.add("show");
+            setTimeout(() => t.classList.remove("show"), 4000);
+        }
+
+        function setDot(n, state) {
+            const dot = document.getElementById("dot-" + n);
+            dot.classList.remove("active", "done");
+            if (state === "active") dot.classList.add("active");
+            if (state === "done") { dot.classList.add("done"); dot.textContent = "✓"; }
+        }
+        function setLine(n, done) {
+            const line = document.getElementById("line-" + n);
+            if (line) line.classList.toggle("done", done);
+        }
+
+        function goTo(n) {
+            document.querySelectorAll(".form-step").forEach(s => s.classList.remove("active"));
+            const el = document.getElementById("fs-" + n);
+            if (el) el.classList.add("active");
+            currentStep = n;
+
+            for (let i = 1; i <= 4; i++) {
+                if (i < n) setDot(i, "done");
+                else if (i === n) setDot(i, "active");
+                else setDot(i, "");
+                if (i < 4) setLine(i, i < n);
+            }
+        }
+
+        function prevStep(n) { goTo(n - 1); }
+
+        function nextStep(n) {
+            const err = document.getElementById("err-" + n);
+            err.textContent = "";
+
+            if (n === 1) {
+                const fname = document.getElementById("r-fname").value.trim();
+                const lname = document.getElementById("r-lname").value.trim();
+                const dob = document.getElementById("r-dob").value;
+                const bvn = document.getElementById("r-bvn").value.trim();
+                if (!fname || !lname) { err.textContent = "Please enter your first and last name."; return; }
+                if (!dob) { err.textContent = "Please enter your date of birth."; return; }
+                if (!bvn || bvn.length < 11) { err.textContent = "Please enter a valid 11-digit BVN."; return; }
+            }
+
+            if (n === 2) {
+                const email = document.getElementById("r-email").value.trim();
+                const phone = document.getElementById("r-phone").value.trim();
+                const state = document.getElementById("r-state").value;
+                const address = document.getElementById("r-address").value.trim();
+                if (!email || !email.includes("@")) { err.textContent = "Please enter a valid email address."; return; }
+                if (!phone) { err.textContent = "Please enter your phone number."; return; }
+                if (!state) { err.textContent = "Please select your state of residence."; return; }
+                if (!address) { err.textContent = "Please enter your home address."; return; }
+            }
+
+            if (n === 3) {
+                const pw = document.getElementById("r-pw").value;
+                const cpw = document.getElementById("r-cpw").value;
+                if (!pw || pw.length < 8) { err.textContent = "Password must be at least 8 characters."; return; }
+                if (pw !== cpw) { err.textContent = "Passwords do not match."; return; }
+            }
+
+            if (n === 4) {
+                // Fill summary
+                const fname = document.getElementById("r-fname").value.trim();
+                const lname = document.getElementById("r-lname").value.trim();
+                document.getElementById("sum-name").textContent = fname + " " + lname;
+                document.getElementById("sum-email").textContent = document.getElementById("r-email").value;
+                document.getElementById("sum-phone").textContent = document.getElementById("r-phone").value;
+                document.getElementById("sum-state").textContent = document.getElementById("r-state").value;
+                const bvn = document.getElementById("r-bvn").value;
+                document.getElementById("sum-bvn").textContent = bvn.slice(0, 3) + "****" + bvn.slice(-4);
+            }
+
+            goTo(n + 1);
+        }
+
+        function evalPw(val) {
+            const rules = { "rl-len": val.length >= 8, "rl-upper": /[A-Z]/.test(val), "rl-num": /[0-9]/.test(val), "rl-spec": /[!@#$%^&*]/.test(val) };
+            Object.keys(rules).forEach(id => document.getElementById(id)?.classList.toggle("pass", rules[id]));
+            const score = Object.values(rules).filter(Boolean).length;
+            const fill = document.getElementById("r-pw-fill");
+            const cols = ["#E2E8F0", "#e05252", "#F68634", "#f59e0b", "#16A34A"];
+            fill.style.width = (score * 25) + "%";
+            fill.style.background = cols[score];
+        }
+
+        function submitApplication() {
+            const terms = document.getElementById("r-terms").checked;
+            const err = document.getElementById("err-4");
+            if (!terms) { err.textContent = "You must agree to the Terms & Conditions to proceed."; return; }
+            document.querySelectorAll(".form-step").forEach(s => s.classList.remove("active"));
+            document.getElementById("fs-success").classList.add("active");
+        }
+    </script>
+</body>
+
+</html>

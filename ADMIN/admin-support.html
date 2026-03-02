@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — Support Inbox</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+        .inbox-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 20px;
+        }
+
+        .ticket-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .ticket-item {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-lt);
+            cursor: pointer;
+            transition: background 0.15s;
+            border-left: 3px solid transparent;
+        }
+
+        .ticket-item:hover {
+            background: var(--bg);
+        }
+
+        .ticket-item.active {
+            background: var(--blue-light);
+            border-left-color: var(--blue);
+        }
+
+        .ticket-item.urgent {
+            border-left-color: var(--danger);
+        }
+
+        .ticket-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .ticket-sender {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--blue);
+        }
+
+        .ticket-time {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: 'DM Mono', monospace;
+        }
+
+        .ticket-subject {
+            font-size: 12px;
+            color: var(--text-md);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .ticket-preview {
+            font-size: 11px;
+            color: var(--text-dim);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .thread {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .thread-msg {
+            padding: 14px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .thread-msg.investor {
+            background: var(--bg);
+            border: 1px solid var(--border);
+        }
+
+        .thread-msg.admin {
+            background: var(--blue-light);
+            border: 1px solid rgba(3, 54, 105, 0.1);
+        }
+
+        .thread-sender {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        .reply-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .reply-box textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            padding: 12px 14px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            color: var(--blue);
+            outline: none;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .reply-box textarea:focus {
+            border-color: var(--orange);
+        }
+
+        .reply-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        @media(max-width:960px) {
+            .inbox-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div>
+        </div>
+        <div class="admin-badge">
+            <div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item" href="admin-dashboard.html" data-label="Dashboard"><span class="nav-icon">📊</span><span
+                    class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item" href="admin-investors.html" data-label="Investor Management"><span
+                    class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item" href="admin-investments.html" data-label="Investments"><span
+                    class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item" href="admin-liquidations.html" data-label="Liquidation Requests"><span
+                    class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item active" href="admin-support.html" data-label="Support Inbox"><span
+                    class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item" href="admin-statements.html" data-label="Statement Generator"><span
+                    class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+            <a class="nav-item" href="admin-users.html" data-label="User Management"><span
+                    class="nav-icon">🔑</span><span class="nav-text">User Management</span></a>
+            <a class="nav-item" href="admin-macro.html" data-label="Macro Indicators"><span
+                    class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span
+                    class="toggle-label">Collapse</span></button>
+            <div class="investor-chip">
+                <div class="avatar">AD</div>
+                <div class="chip-info">
+                    <div class="iname">Admin User</div>
+                    <div class="iid">STI Staff</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign
+                    Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Support Inbox</h1>
+                <p>Read and respond to investor support tickets</p>
+            </div>
+            <div class="topbar-right">
+                <select class="filter-select">
+                    <option>All Tickets</option>
+                    <option>Open</option>
+                    <option>Urgent</option>
+                    <option>Resolved</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📩</div>
+                <div class="stat-label">Open Tickets</div>
+                <div class="stat-value">14</div>
+                <div class="stat-badge">Unresolved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔴</div>
+                <div class="stat-label">Urgent</div>
+                <div class="stat-value red">5</div>
+                <div class="stat-badge red">Action needed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Resolved Today</div>
+                <div class="stat-value green">8</div>
+                <div class="stat-badge green">Closed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-label">Avg Response Time</div>
+                <div class="stat-value">3.4h</div>
+                <div class="stat-badge">Last 7 days</div>
+            </div>
+        </div>
+
+        <div class="inbox-layout">
+            <!-- Ticket list -->
+            <div class="panel" style="padding:0;overflow:hidden;">
+                <div style="padding:16px 16px 12px;border-bottom:1px solid var(--border);">
+                    <input class="search-input" placeholder="🔍  Search tickets…" style="width:100%" />
+                </div>
+                <div class="ticket-list">
+                    <div class="ticket-item active urgent"
+                        onclick="loadTicket(this,'Bola Tinuke','Payment not received','URGENT')">
+                        <div class="ticket-meta">
+                            <span class="ticket-sender">Bola Tinuke</span>
+                            <span class="ticket-time">2h ago</span>
+                        </div>
+                        <div class="ticket-subject">Payment not received after maturity</div>
+                        <div class="ticket-preview">I was supposed to receive my payout on Jan 15 but…</div>
+                        <div style="margin-top:6px;"><span class="pill pill-rejected"
+                                style="font-size:10px;">URGENT</span></div>
+                    </div>
+                    <div class="ticket-item urgent"
+                        onclick="loadTicket(this,'Chidera Nwosu','Account access issue','URGENT')">
+                        <div class="ticket-meta">
+                            <span class="ticket-sender">Chidera Nwosu</span>
+                            <span class="ticket-time">4h ago</span>
+                        </div>
+                        <div class="ticket-subject">Cannot access my account</div>
+                        <div class="ticket-preview">I keep getting an invalid password error even though…</div>
+                        <div style="margin-top:6px;"><span class="pill pill-rejected"
+                                style="font-size:10px;">URGENT</span></div>
+                    </div>
+                    <div class="ticket-item" onclick="loadTicket(this,'Isaac Kazeem','Statement request','NORMAL')">
+                        <div class="ticket-meta">
+                            <span class="ticket-sender">Isaac Kazeem</span>
+                            <span class="ticket-time">Yesterday</span>
+                        </div>
+                        <div class="ticket-subject">Request for annual statement</div>
+                        <div class="ticket-preview">Please generate my 2024 annual portfolio statement…</div>
+                        <div style="margin-top:6px;"><span class="pill pill-pending" style="font-size:10px;">OPEN</span>
+                        </div>
+                    </div>
+                    <div class="ticket-item" onclick="loadTicket(this,'Amara Obi','Liquidation update','NORMAL')">
+                        <div class="ticket-meta">
+                            <span class="ticket-sender">Amara Obi</span>
+                            <span class="ticket-time">Yesterday</span>
+                        </div>
+                        <div class="ticket-subject">Update on liquidation request</div>
+                        <div class="ticket-preview">It has been 3 days since I submitted my liquidation…</div>
+                        <div style="margin-top:6px;"><span class="pill pill-pending" style="font-size:10px;">OPEN</span>
+                        </div>
+                    </div>
+                    <div class="ticket-item" onclick="loadTicket(this,'Femi Adebayo','Interest rate query','NORMAL')">
+                        <div class="ticket-meta">
+                            <span class="ticket-sender">Femi Adebayo</span>
+                            <span class="ticket-time">2 days ago</span>
+                        </div>
+                        <div class="ticket-subject">Query about interest rate changes</div>
+                        <div class="ticket-preview">I noticed my rate seems lower than what was agreed…</div>
+                        <div style="margin-top:6px;"><span class="pill pill-pending" style="font-size:10px;">OPEN</span>
+                        </div>
+                    </div>
+                    <div class="ticket-item" onclick="loadTicket(this,'Zainab Musa','KYC documents','NORMAL')">
+                        <div class="ticket-meta">
+                            <span class="ticket-sender">Zainab Musa</span>
+                            <span class="ticket-time">3 days ago</span>
+                        </div>
+                        <div class="ticket-subject">KYC document resubmission</div>
+                        <div class="ticket-preview">My documents were rejected, please advise on what…</div>
+                        <div style="margin-top:6px;"><span class="pill pill-active"
+                                style="font-size:10px;">RESOLVED</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticket thread -->
+            <div class="panel" id="ticket-thread-panel">
+                <div class="panel-header" id="thread-header">
+                    <div>
+                        <div class="panel-title" id="thread-title">Bola Tinuke — Payment not received</div>
+                        <div style="font-size:12px;color:var(--text-dim);margin-top:2px">Ticket #TKT-0042 &nbsp;·&nbsp;
+                            Submitted 2 hours ago &nbsp;·&nbsp; <span
+                                style="color:var(--danger);font-weight:600">URGENT</span></div>
+                    </div>
+                    <button class="btn-success" onclick="closeTicket('TKT-0042')">✓ Mark Resolved</button>
+                </div>
+
+                <div class="thread" id="thread-body">
+                    <div class="thread-msg investor">
+                        <div class="thread-sender">📨 Bola Tinuke &nbsp;·&nbsp; Jan 19, 2025 at 10:22am</div>
+                        I was supposed to receive my maturity payout on January 15, 2025 for investment REF-2024-011.
+                        The amount should be ₦4,200,000 but I have not received any credit to my account. Please advise
+                        urgently as this is affecting my business operations.
+                    </div>
+                    <div class="thread-msg admin">
+                        <div class="thread-sender">🔧 Admin (Adaeze Okonkwo) &nbsp;·&nbsp; Jan 19, 2025 at 11:45am</div>
+                        Dear Bola, thank you for reaching out. We have escalated this to our payments team and are
+                        investigating the delay. We will revert with an update within 24 hours. We sincerely apologise
+                        for the inconvenience.
+                    </div>
+                    <div class="thread-msg investor">
+                        <div class="thread-sender">📨 Bola Tinuke &nbsp;·&nbsp; Jan 19, 2025 at 12:30pm</div>
+                        Thank you for your response. I look forward to hearing from you urgently. Please note I have
+                        been a loyal investor for 3 years and this has never happened before.
+                    </div>
+                </div>
+
+                <div class="reply-box">
+                    <textarea id="reply-message" placeholder="Type your reply to the investor…"></textarea>
+                    <div class="reply-actions">
+                        <button class="btn-ghost"
+                            onclick="document.getElementById('reply-message').value=''">Clear</button>
+                        <button class="btn-orange" onclick="sendReply()">Send Reply ➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+    <script>
+        function loadTicket(el, name, subject, priority) {
+            document.querySelectorAll(".ticket-item").forEach(t => t.classList.remove("active"));
+            el.classList.add("active");
+            document.getElementById("thread-title").textContent = name + " — " + subject;
+        }
+        function sendReply() {
+            const msg = document.getElementById("reply-message").value.trim();
+            if (!msg || msg.length < 5) { showToast("⚠️ Please type a reply first.", "danger"); return; }
+            const thread = document.getElementById("thread-body");
+            const div = document.createElement("div");
+            div.className = "thread-msg admin";
+            div.innerHTML = `<div class="thread-sender">🔧 Admin (You) &nbsp;·&nbsp; Just now</div>${msg}`;
+            thread.appendChild(div);
+            document.getElementById("reply-message").value = "";
+            showToast("✅ Reply sent to investor.", "success");
+            thread.scrollTop = thread.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>

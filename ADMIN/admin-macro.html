@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — Macro Indicators</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" /></head>
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div></div>
+        <div class="admin-badge"><div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span></div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item" href="admin-dashboard.html" data-label="Dashboard"><span class="nav-icon">📊</span><span class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item" href="admin-investors.html" data-label="Investor Management"><span class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item" href="admin-investments.html" data-label="Investments"><span class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item" href="admin-liquidations.html" data-label="Liquidation Requests"><span class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item" href="admin-support.html" data-label="Support Inbox"><span class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item" href="admin-statements.html" data-label="Statement Generator"><span class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+            <a class="nav-item" href="admin-users.html" data-label="User Management"><span class="nav-icon">🔑</span><span class="nav-text">User Management</span></a>
+            <a class="nav-item active" href="admin-macro.html" data-label="Macro Indicators"><span class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span class="toggle-label">Collapse</span></button>
+            <div class="investor-chip"><div class="avatar">AD</div><div class="chip-info"><div class="iname">Admin User</div><div class="iid">STI Staff</div></div></div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Macro Indicators Editor</h1>
+                <p>Update all economic data shown on the investor-facing Macro Indicators page</p>
+            </div>
+            <div class="topbar-right">
+                <div class="badge-date" id="today-date"></div>
+                <a href="macro.html" target="_blank" class="btn-ghost">👁 Preview Client View</a>
+            </div>
+        </div>
+
+        <div class="panel" style="padding:16px 20px;margin-bottom:20px;background:var(--blue-light);border-color:rgba(3,54,105,0.12)">
+            <div style="font-size:13px;color:var(--blue);line-height:1.7">
+                📝 <strong>How this works:</strong> Edit any indicator below — values, change labels, direction arrows, and descriptions. When done, click <strong>Save & Publish</strong> to push the updated data to the investor portal. All changes are reflected immediately on the <a href="macro.html" target="_blank" style="color:var(--orange);font-weight:600">Macro Indicators page</a>.
+            </div>
+        </div>
+
+        <form id="macro-form">
+
+        <!-- ═══════════════════════════════════════════════
+             SECTION 1: MONETARY
+        ════════════════════════════════════════════════ -->
+        <div class="section-label">🏦 Monetary &amp; Interest Rate Environment</div>
+        <div class="indicators-grid">
+
+            <div class="indicator-card" id="card-mpr">
+                <div class="icard-header">
+                    <span class="icard-icon">📈</span>
+                    <span class="icard-title">CBN Monetary Policy Rate</span>
+                    <span class="icard-status live" id="status-mpr">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-mpr-val">27.50%</div>
+                        <div class="icard-preview-change neg" id="prev-mpr-chg">▲ +50bps (Nov 2024)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field">
+                        <label>Value</label>
+                        <input type="text" id="mpr-val" value="27.50%" oninput="livePreview('mpr')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Change Label</label>
+                        <input type="text" id="mpr-chg" value="+50bps (Nov 2024)" oninput="livePreview('mpr')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Direction</label>
+                        <select id="mpr-dir" onchange="livePreview('mpr')">
+                            <option value="pos">▲ Positive</option>
+                            <option value="neg" selected>▲ Negative (rate rise)</option>
+                            <option value="neu">≈ Neutral</option>
+                        </select>
+                    </div>
+                    <div class="icard-field">
+                        <label>Update Period</label>
+                        <input type="text" id="mpr-period" value="Nov 2024" oninput="markDirty('card-mpr','status-mpr')" />
+                    </div>
+                    <div class="icard-field icard-desc-field">
+                        <label>Description</label>
+                        <textarea id="mpr-desc" oninput="markDirty('card-mpr','status-mpr')">The CBN's benchmark rate, influencing lending and deposit rates across the economy.</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-tbill">
+                <div class="icard-header">
+                    <span class="icard-icon">💳</span>
+                    <span class="icard-title">Treasury Bills Rate (91-day)</span>
+                    <span class="icard-status live" id="status-tbill">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-tbill-val">22.10%</div>
+                        <div class="icard-preview-change pos" id="prev-tbill-chg">▲ +180bps (Q4 2024)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field">
+                        <label>Value</label>
+                        <input type="text" id="tbill-val" value="22.10%" oninput="livePreview('tbill')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Change Label</label>
+                        <input type="text" id="tbill-chg" value="+180bps (Q4 2024)" oninput="livePreview('tbill')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Direction</label>
+                        <select id="tbill-dir" onchange="livePreview('tbill')">
+                            <option value="pos" selected>▲ Positive</option>
+                            <option value="neg">▼ Negative</option>
+                            <option value="neu">≈ Neutral</option>
+                        </select>
+                    </div>
+                    <div class="icard-field">
+                        <label>Update Period</label>
+                        <input type="text" id="tbill-period" value="Q4 2024" />
+                    </div>
+                    <div class="icard-field icard-desc-field">
+                        <label>Description</label>
+                        <textarea id="tbill-desc">Short-term government borrowing rate; a benchmark for fixed income instruments.</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-bond">
+                <div class="icard-header">
+                    <span class="icard-icon">🏛️</span>
+                    <span class="icard-title">FGN Bond Yield (10-yr)</span>
+                    <span class="icard-status live" id="status-bond">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-bond-val">19.80%</div>
+                        <div class="icard-preview-change pos" id="prev-bond-chg">▲ +240bps (YTD)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field">
+                        <label>Value</label>
+                        <input type="text" id="bond-val" value="19.80%" oninput="livePreview('bond')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Change Label</label>
+                        <input type="text" id="bond-chg" value="+240bps (YTD)" oninput="livePreview('bond')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Direction</label>
+                        <select id="bond-dir" onchange="livePreview('bond')">
+                            <option value="pos" selected>▲ Positive</option>
+                            <option value="neg">▼ Negative</option>
+                            <option value="neu">≈ Neutral</option>
+                        </select>
+                    </div>
+                    <div class="icard-field">
+                        <label>Update Period</label>
+                        <input type="text" id="bond-period" value="YTD 2024" />
+                    </div>
+                    <div class="icard-field icard-desc-field">
+                        <label>Description</label>
+                        <textarea id="bond-desc">Long-term sovereign debt yield, reflecting government borrowing costs and investor risk appetite.</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-plr">
+                <div class="icard-header">
+                    <span class="icard-icon">💰</span>
+                    <span class="icard-title">Prime Lending Rate</span>
+                    <span class="icard-status live" id="status-plr">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-plr-val">31.20%</div>
+                        <div class="icard-preview-change neg" id="prev-plr-chg">▲ +120bps (H2 2024)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field">
+                        <label>Value</label>
+                        <input type="text" id="plr-val" value="31.20%" oninput="livePreview('plr')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Change Label</label>
+                        <input type="text" id="plr-chg" value="+120bps (H2 2024)" oninput="livePreview('plr')" />
+                    </div>
+                    <div class="icard-field">
+                        <label>Direction</label>
+                        <select id="plr-dir" onchange="livePreview('plr')">
+                            <option value="pos">▲ Positive</option>
+                            <option value="neg" selected>▲ Negative (rate rise)</option>
+                            <option value="neu">≈ Neutral</option>
+                        </select>
+                    </div>
+                    <div class="icard-field">
+                        <label>Update Period</label>
+                        <input type="text" id="plr-period" value="H2 2024" />
+                    </div>
+                    <div class="icard-field icard-desc-field">
+                        <label>Description</label>
+                        <textarea id="plr-desc">Average rate commercial banks charge their most creditworthy customers.</textarea>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             SECTION 2: INFLATION & FX
+        ════════════════════════════════════════════════ -->
+        <div class="section-label">💱 Inflation &amp; Foreign Exchange</div>
+        <div class="indicators-grid">
+
+            <div class="indicator-card" id="card-inf">
+                <div class="icard-header">
+                    <span class="icard-icon">🔥</span>
+                    <span class="icard-title">Headline Inflation Rate</span>
+                    <span class="icard-status live" id="status-inf">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-inf-val">34.80%</div>
+                        <div class="icard-preview-change neg" id="prev-inf-chg">▲ +2.1pp (YoY)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="inf-val" value="34.80%" oninput="livePreview('inf')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="inf-chg" value="+2.1pp (YoY)" oninput="livePreview('inf')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="inf-dir" onchange="livePreview('inf')"><option value="pos">▲ Positive</option><option value="neg" selected>▲ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="inf-period" value="YoY Dec 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="inf-desc">Nigeria's CPI inflation remains elevated, driven by food prices and energy costs post-subsidy removal.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-food">
+                <div class="icard-header">
+                    <span class="icard-icon">🍞</span>
+                    <span class="icard-title">Food Inflation</span>
+                    <span class="icard-status live" id="status-food">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-food-val">39.84%</div>
+                        <div class="icard-preview-change neg" id="prev-food-chg">▲ +3.5pp (YoY)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="food-val" value="39.84%" oninput="livePreview('food')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="food-chg" value="+3.5pp (YoY)" oninput="livePreview('food')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="food-dir" onchange="livePreview('food')"><option value="pos">▲ Positive</option><option value="neg" selected>▲ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="food-period" value="YoY Dec 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="food-desc">Food prices continue to surge, reflecting logistics costs, FX pass-through, and supply constraints.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-usdngn">
+                <div class="icard-header">
+                    <span class="icard-icon">🌐</span>
+                    <span class="icard-title">USD/NGN Official Rate</span>
+                    <span class="icard-status live" id="status-usdngn">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-usdngn-val">₦1,540</div>
+                        <div class="icard-preview-change neg" id="prev-usdngn-chg">▼ –32% (YTD)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="usdngn-val" value="₦1,540" oninput="livePreview('usdngn')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="usdngn-chg" value="–32% (YTD)" oninput="livePreview('usdngn')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="usdngn-dir" onchange="livePreview('usdngn')"><option value="pos">▲ Positive</option><option value="neg" selected>▼ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="usdngn-period" value="YTD 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="usdngn-desc">The naira has depreciated significantly since FX unification. Official and parallel rates remain close.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-parallel">
+                <div class="icard-header">
+                    <span class="icard-icon">🏪</span>
+                    <span class="icard-title">Parallel Market Rate</span>
+                    <span class="icard-status live" id="status-parallel">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-parallel-val">₦1,570</div>
+                        <div class="icard-preview-change neu" id="prev-parallel-chg">≈ +₦30 premium</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="parallel-val" value="₦1,570" oninput="livePreview('parallel')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="parallel-chg" value="+₦30 premium" oninput="livePreview('parallel')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="parallel-dir" onchange="livePreview('parallel')"><option value="pos">▲ Positive</option><option value="neg">▼ Negative</option><option value="neu" selected>≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="parallel-period" value="Jan 2025" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="parallel-desc">Street rate reflecting market demand; spread vs official rate remains relatively tight post-unification.</textarea></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             SECTION 3: GROWTH & OUTPUT
+        ════════════════════════════════════════════════ -->
+        <div class="section-label">📊 Growth &amp; Economic Output</div>
+        <div class="indicators-grid">
+
+            <div class="indicator-card" id="card-gdp">
+                <div class="icard-header">
+                    <span class="icard-icon">🇳🇬</span>
+                    <span class="icard-title">GDP Growth Rate</span>
+                    <span class="icard-status live" id="status-gdp">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-gdp-val">3.46%</div>
+                        <div class="icard-preview-change pos" id="prev-gdp-chg">▲ +0.6pp (Q3 2024)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="gdp-val" value="3.46%" oninput="livePreview('gdp')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="gdp-chg" value="+0.6pp (Q3 2024)" oninput="livePreview('gdp')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="gdp-dir" onchange="livePreview('gdp')"><option value="pos" selected>▲ Positive</option><option value="neg">▼ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="gdp-period" value="Q3 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="gdp-desc">Real GDP growth, driven by services sector. Oil sector underperformance continues to weigh on headline figures.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-oil">
+                <div class="icard-header">
+                    <span class="icard-icon">🛢️</span>
+                    <span class="icard-title">Crude Oil Production</span>
+                    <span class="icard-status live" id="status-oil">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-oil-val">1.48M bpd</div>
+                        <div class="icard-preview-change pos" id="prev-oil-chg">▲ +120K bpd (MoM)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="oil-val" value="1.48M bpd" oninput="livePreview('oil')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="oil-chg" value="+120K bpd (MoM)" oninput="livePreview('oil')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="oil-dir" onchange="livePreview('oil')"><option value="pos" selected>▲ Positive</option><option value="neg">▼ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="oil-period" value="MoM Nov 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="oil-desc">Output remains below OPEC quota of 1.8M bpd. Pipeline security and investment drive gradual recovery.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-pmi">
+                <div class="icard-header">
+                    <span class="icard-icon">⚡</span>
+                    <span class="icard-title">PMI (Manufacturing)</span>
+                    <span class="icard-status live" id="status-pmi">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-pmi-val">49.6</div>
+                        <div class="icard-preview-change neg" id="prev-pmi-chg">▼ –0.8 (MoM)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="pmi-val" value="49.6" oninput="livePreview('pmi')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="pmi-chg" value="–0.8 (MoM)" oninput="livePreview('pmi')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="pmi-dir" onchange="livePreview('pmi')"><option value="pos">▲ Positive</option><option value="neg" selected>▼ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="pmi-period" value="Dec 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="pmi-desc">Below 50 signals contraction. Input cost pressures and FX constraints weigh on manufacturers.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-unemp">
+                <div class="icard-header">
+                    <span class="icard-icon">💼</span>
+                    <span class="icard-title">Unemployment Rate</span>
+                    <span class="icard-status live" id="status-unemp">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-unemp-val">33.3%</div>
+                        <div class="icard-preview-change neg" id="prev-unemp-chg">▲ NBS Q4 2023</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="unemp-val" value="33.3%" oninput="livePreview('unemp')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="unemp-chg" value="NBS Q4 2023" oninput="livePreview('unemp')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="unemp-dir" onchange="livePreview('unemp')"><option value="pos">▲ Positive</option><option value="neg" selected>▲ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="unemp-period" value="Q4 2023 (NBS)" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="unemp-desc">Broad unemployment rate using NBS expanded definition. Youth unemployment significantly higher at ~53%.</textarea></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             SECTION 4: FISCAL & EXTERNAL
+        ════════════════════════════════════════════════ -->
+        <div class="section-label">🏛️ Fiscal &amp; External Sector</div>
+        <div class="indicators-grid">
+
+            <div class="indicator-card" id="card-res">
+                <div class="icard-header">
+                    <span class="icard-icon">📋</span>
+                    <span class="icard-title">External Reserves</span>
+                    <span class="icard-status live" id="status-res">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-res-val">$38.7B</div>
+                        <div class="icard-preview-change pos" id="prev-res-chg">▲ +$1.2B (QoQ)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="res-val" value="$38.7B" oninput="livePreview('res')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="res-chg" value="+$1.2B (QoQ)" oninput="livePreview('res')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="res-dir" onchange="livePreview('res')"><option value="pos" selected>▲ Positive</option><option value="neg">▼ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="res-period" value="QoQ Q4 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="res-desc">CBN gross reserves provide approximately 7.5 months of import cover, above the 3-month adequacy threshold.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-deficit">
+                <div class="icard-header">
+                    <span class="icard-icon">📉</span>
+                    <span class="icard-title">Fiscal Deficit (% GDP)</span>
+                    <span class="icard-status live" id="status-deficit">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-deficit-val">–5.4%</div>
+                        <div class="icard-preview-change neg" id="prev-deficit-chg">▼ Wider than target</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="deficit-val" value="–5.4%" oninput="livePreview('deficit')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="deficit-chg" value="Wider than target" oninput="livePreview('deficit')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="deficit-dir" onchange="livePreview('deficit')"><option value="pos">▲ Positive</option><option value="neg" selected>▼ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="deficit-period" value="2024 Budget" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="deficit-desc">FGN budget deficit driven by debt servicing costs now consuming over 90% of retained revenue.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-debt">
+                <div class="icard-header">
+                    <span class="icard-icon">🔄</span>
+                    <span class="icard-title">Debt-to-GDP Ratio</span>
+                    <span class="icard-status live" id="status-debt">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-debt-val">42.3%</div>
+                        <div class="icard-preview-change neg" id="prev-debt-chg">▲ +4pp (2024)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="debt-val" value="42.3%" oninput="livePreview('debt')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="debt-chg" value="+4pp (2024)" oninput="livePreview('debt')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="debt-dir" onchange="livePreview('debt')"><option value="pos">▲ Positive</option><option value="neg" selected>▲ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="debt-period" value="2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="debt-desc">Total public debt rising due to new Eurobond issuances and domestic borrowing. Still within IMF thresholds.</textarea></div>
+                </div>
+            </div>
+
+            <div class="indicator-card" id="card-trade">
+                <div class="icard-header">
+                    <span class="icard-icon">🚢</span>
+                    <span class="icard-title">Trade Balance</span>
+                    <span class="icard-status live" id="status-trade">Live</span>
+                </div>
+                <div class="icard-preview">
+                    <div>
+                        <div class="icard-preview-value" id="prev-trade-val">₦2.1T surplus</div>
+                        <div class="icard-preview-change pos" id="prev-trade-chg">▲ Improved (Q3 2024)</div>
+                    </div>
+                </div>
+                <div class="icard-fields">
+                    <div class="icard-field"><label>Value</label><input type="text" id="trade-val" value="₦2.1T surplus" oninput="livePreview('trade')" /></div>
+                    <div class="icard-field"><label>Change Label</label><input type="text" id="trade-chg" value="Improved (Q3 2024)" oninput="livePreview('trade')" /></div>
+                    <div class="icard-field"><label>Direction</label><select id="trade-dir" onchange="livePreview('trade')"><option value="pos" selected>▲ Positive</option><option value="neg">▼ Negative</option><option value="neu">≈ Neutral</option></select></div>
+                    <div class="icard-field"><label>Update Period</label><input type="text" id="trade-period" value="Q3 2024" /></div>
+                    <div class="icard-field icard-desc-field"><label>Description</label><textarea id="trade-desc">Positive trade balance driven by oil export receipts outpacing import bills in naira terms.</textarea></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             IMPLICATION CARD EDITOR
+        ════════════════════════════════════════════════ -->
+        <div class="section-label">📌 "What This Means for Your Portfolio" — Investor Implications</div>
+        <div class="impl-grid">
+            <div class="impl-card">
+                <label>Headline</label>
+                <input type="text" id="impl-1-title" value="High interest rates" />
+                <label>Explanation</label>
+                <textarea id="impl-1-body">Support strong fixed income returns. STI portfolios benefit from elevated T-Bill and money market yields.</textarea>
+            </div>
+            <div class="impl-card">
+                <label>Headline</label>
+                <input type="text" id="impl-2-title" value="Elevated inflation" />
+                <label>Explanation</label>
+                <textarea id="impl-2-body">Real returns remain positive as our portfolio rates exceed CPI — protecting purchasing power.</textarea>
+            </div>
+            <div class="impl-card">
+                <label>Headline</label>
+                <input type="text" id="impl-3-title" value="Naira depreciation" />
+                <label>Explanation</label>
+                <textarea id="impl-3-body">Naira-denominated investments remain the safest allocation for locally-based investors at current rate levels.</textarea>
+            </div>
+            <div class="impl-card">
+                <label>Headline</label>
+                <input type="text" id="impl-4-title" value="Stable reserves" />
+                <label>Explanation</label>
+                <textarea id="impl-4-body">Growing external reserves signal reduced risk of acute FX volatility over the medium term.</textarea>
+            </div>
+        </div>
+
+        <!-- Last Updated text -->
+        <div class="panel" style="padding:16px 20px">
+            <div class="sform-row">
+                <div class="sform-group" style="margin-bottom:0">
+                    <label class="sform-group" style="display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#475569;margin-bottom:7px">Last Updated Label (shown to investors)</label>
+                    <input type="text" id="last-updated" value="Jan 2025" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xs);padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--blue);outline:none;" />
+                </div>
+            </div>
+        </div>
+
+        </form>
+
+        <!-- Sticky save bar -->
+        <div class="save-bar">
+            <div class="save-bar-info">
+                <strong id="dirty-count">0</strong> unsaved changes — click Save &amp; Publish to update the investor portal
+            </div>
+            <div class="save-bar-actions">
+                <button class="btn-ghost" onclick="resetMacroForm()">↺ Reset to Saved</button>
+                <button class="btn-orange" onclick="saveAndPublish()">✓ Save &amp; Publish</button>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+</body>
+</html>

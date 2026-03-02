@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — Statement Generator</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+        .gen-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 20px;
+        }
+
+        .preview-doc {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px 40px;
+            font-size: 13px;
+            line-height: 1.7;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 72px;
+            font-weight: 700;
+            color: rgba(3, 54, 105, 0.04);
+            font-family: 'Playfair Display', serif;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: 0.05em;
+        }
+
+        .preview-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .prev-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--blue);
+        }
+
+        .prev-co-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .prev-co-meta {
+            font-size: 11px;
+            color: var(--text-md);
+            margin-top: 3px;
+        }
+
+        .prev-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--blue);
+            margin: 16px 0 12px;
+        }
+
+        .prev-investor-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+
+        .prev-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--blue);
+            border-left: 3px solid var(--orange);
+            padding-left: 8px;
+            margin: 14px 0 8px;
+        }
+
+        .prev-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .prev-table th {
+            text-align: left;
+            padding: 7px 10px;
+            background: var(--bg);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prev-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-lt);
+        }
+
+        .prev-table td.right {
+            text-align: right;
+            font-weight: 600;
+            color: var(--blue);
+        }
+
+        .prev-progress-track {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .prev-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+            border-radius: 3px;
+        }
+
+        .prev-disclaimer {
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            line-height: 1.6;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-lt);
+            font-size: 13px;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        @media(max-width:1100px) {
+            .gen-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div>
+        </div>
+        <div class="admin-badge">
+            <div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item" href="admin-dashboard.html" data-label="Dashboard"><span class="nav-icon">📊</span><span
+                    class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item" href="admin-investors.html" data-label="Investor Management"><span
+                    class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item" href="admin-investments.html" data-label="Investments"><span
+                    class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item" href="admin-liquidations.html" data-label="Liquidation Requests"><span
+                    class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item" href="admin-support.html" data-label="Support Inbox"><span
+                    class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item active" href="admin-statements.html" data-label="Statement Generator"><span
+                    class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+            <a class="nav-item" href="admin-users.html" data-label="User Management"><span
+                    class="nav-icon">🔑</span><span class="nav-text">User Management</span></a>
+            <a class="nav-item" href="admin-macro.html" data-label="Macro Indicators"><span
+                    class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span
+                    class="toggle-label">Collapse</span></button>
+            <div class="investor-chip">
+                <div class="avatar">AD</div>
+                <div class="chip-info">
+                    <div class="iname">Admin User</div>
+                    <div class="iid">STI Staff</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign
+                    Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Statement Generator</h1>
+                <p>Generate and send portfolio statements to any investor</p>
+            </div>
+        </div>
+
+        <div class="gen-layout">
+            <!-- Controls -->
+            <div>
+                <div class="panel">
+                    <div class="panel-title">Generate Statement</div>
+                    <div class="sform-group">
+                        <label>Select Investor</label>
+                        <select id="gen-investor" onchange="updatePreview()">
+                            <option value="">Choose investor…</option>
+                            <option value="Isaac Kazeem">Isaac Kazeem (ID: 03312)</option>
+                            <option value="Amara Obi">Amara Obi (ID: 03313)</option>
+                            <option value="Femi Adebayo">Femi Adebayo (ID: 03314)</option>
+                            <option value="Chidera Nwosu">Chidera Nwosu (ID: 03315)</option>
+                            <option value="Zainab Musa">Zainab Musa (ID: 03316)</option>
+                        </select>
+                    </div>
+                    <div class="sform-group">
+                        <label>Investment Reference</label>
+                        <select id="gen-ref" onchange="updatePreview()">
+                            <option value="">Choose reference…</option>
+                            <option value="REF-2024-001">REF-2024-001 — Fixed Income</option>
+                            <option value="REF-2024-002">REF-2024-002 — Money Market</option>
+                            <option value="REF-2024-003">REF-2024-003 — Treasury Bills</option>
+                        </select>
+                    </div>
+                    <div class="sform-group">
+                        <label>Statement Type</label>
+                        <select id="gen-type" onchange="updatePreview()">
+                            <option value="mid">Mid-Tenure Statement</option>
+                            <option value="maturity">Maturity Statement</option>
+                            <option value="annual">Annual Summary</option>
+                        </select>
+                    </div>
+                    <div class="sform-row">
+                        <div class="sform-group">
+                            <label>Statement Date</label>
+                            <input type="date" id="gen-date" />
+                        </div>
+                        <div class="sform-group">
+                            <label>Delivery Method</label>
+                            <select id="gen-delivery">
+                                <option>Email to investor</option>
+                                <option>Download PDF</option>
+                                <option>Both</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:10px;margin-top:4px">
+                        <button class="btn-save" style="flex:1" onclick="generateStatement()">📄 Generate &
+                            Send</button>
+                        <button class="btn-ghost" onclick="window.print()">🖨️ Print Preview</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Recent Statements</div>
+                    <div class="history-list">
+                        <div class="history-item">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:var(--blue)">Isaac Kazeem</div>
+                                <div class="mono" style="font-size:11px;color:var(--text-dim)">REF-2024-001 · Mid-Tenure
+                                </div>
+                            </div>
+                            <div style="text-align:right">
+                                <div style="font-size:11px;color:var(--text-dim)">Jan 15, 2025</div><span
+                                    class="pill pill-active" style="font-size:10px">Sent</span>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:var(--blue)">Femi Adebayo</div>
+                                <div class="mono" style="font-size:11px;color:var(--text-dim)">REF-2024-012 · Maturity
+                                </div>
+                            </div>
+                            <div style="text-align:right">
+                                <div style="font-size:11px;color:var(--text-dim)">Jan 15, 2025</div><span
+                                    class="pill pill-active" style="font-size:10px">Sent</span>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:var(--blue)">Amara Obi</div>
+                                <div class="mono" style="font-size:11px;color:var(--text-dim)">REF-2024-007 · Annual
+                                </div>
+                            </div>
+                            <div style="text-align:right">
+                                <div style="font-size:11px;color:var(--text-dim)">Jan 10, 2025</div><span
+                                    class="pill pill-active" style="font-size:10px">Sent</span>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div>
+                                <div style="font-size:13px;font-weight:600;color:var(--blue)">Bola Tinuke</div>
+                                <div class="mono" style="font-size:11px;color:var(--text-dim)">REF-2024-011 · Maturity
+                                </div>
+                            </div>
+                            <div style="text-align:right">
+                                <div style="font-size:11px;color:var(--text-dim)">Jan 08, 2025</div><span
+                                    class="pill pill-active" style="font-size:10px">Sent</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Preview -->
+            <div class="panel">
+                <div class="panel-title" style="margin-bottom:16px">Statement Preview</div>
+                <div class="preview-doc" id="preview-doc">
+                    <div class="preview-watermark">STI ASSETS</div>
+                    <div class="preview-content">
+                        <div class="prev-header">
+                            <div>
+                                <div class="prev-co-name">STI Assets Management Ltd</div>
+                                <div class="prev-co-meta">RC: 1234567 &nbsp;|&nbsp; info@stiassetmgt.com &nbsp;|&nbsp;
+                                    +234 916 543 9544</div>
+                            </div>
+                            <div style="text-align:right;font-size:12px;color:var(--text-md)">
+                                <div style="font-weight:600">Date:</div>
+                                <div id="prev-date">January 20, 2025</div>
+                            </div>
+                        </div>
+                        <div class="prev-title" id="prev-title">Mid-Tenure Portfolio Statement</div>
+                        <div class="prev-investor-row">
+                            <div><strong>Investor:</strong> <span id="prev-investor">Select investor above</span></div>
+                            <div><strong>Ref:</strong> <span id="prev-ref" class="mono">—</span></div>
+                        </div>
+                        <div class="prev-section-title">Investment Details</div>
+                        <table class="prev-table">
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td>Investment Amount</td>
+                                <td class="right" id="prev-amount">₦5,000,000.00</td>
+                            </tr>
+                            <tr>
+                                <td>Tenure</td>
+                                <td class="right" id="prev-tenure">12 Months</td>
+                            </tr>
+                            <tr>
+                                <td>Start Date</td>
+                                <td class="right" id="prev-start">July 20, 2024</td>
+                            </tr>
+                            <tr>
+                                <td>Maturity Date</td>
+                                <td class="right" id="prev-maturity">July 20, 2025</td>
+                            </tr>
+                        </table>
+                        <div class="prev-section-title">Performance Summary</div>
+                        <table class="prev-table">
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                            <tr>
+                                <td>Interest Rate</td>
+                                <td class="right" id="prev-rate">18.5% p.a.</td>
+                            </tr>
+                            <tr>
+                                <td>Interest Accrued</td>
+                                <td class="right" id="prev-accrued">₦462,500.00</td>
+                            </tr>
+                            <tr>
+                                <td>Current Portfolio Value</td>
+                                <td class="right" id="prev-value">₦5,462,500.00</td>
+                            </tr>
+                        </table>
+                        <div style="margin-top:14px;font-size:12px;color:var(--text-md)">Tenure Progress: <strong
+                                id="prev-pct">50%</strong></div>
+                        <div class="prev-progress-track">
+                            <div class="prev-progress-fill" id="prev-fill" style="width:50%"></div>
+                        </div>
+                        <div class="prev-disclaimer">This statement is for informational purposes only and does not
+                            constitute confirmation of final returns. Investment values are subject to market conditions
+                            and contractual terms. For enquiries contact your relationship manager.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+    <script>
+        const stmtData = {
+            "REF-2024-001": { amount: "₦5,000,000.00", tenure: "12 Months", start: "July 20, 2024", maturity: "July 20, 2025", rate: "18.5% p.a.", accrued: "₦462,500.00", value: "₦5,462,500.00", pct: 50 },
+            "REF-2024-002": { amount: "₦7,500,000.00", tenure: "12 Months", start: "April 1, 2024", maturity: "April 1, 2025", rate: "20.0% p.a.", accrued: "₦1,200,000.00", value: "₦8,700,000.00", pct: 80 },
+            "REF-2024-003": { amount: "₦2,500,000.00", tenure: "6 Months", start: "Oct 10, 2024", maturity: "April 10, 2025", rate: "22.1% p.a.", accrued: "₦277,500.00", value: "₦2,777,500.00", pct: 68 },
+        };
+        const titleMap = { mid: "Mid-Tenure Portfolio Statement", maturity: "Maturity Portfolio Statement", annual: "Annual Portfolio Summary" };
+
+        function updatePreview() {
+            const investor = document.getElementById("gen-investor").value;
+            const ref = document.getElementById("gen-ref").value;
+            const type = document.getElementById("gen-type").value;
+            const d = stmtData[ref];
+
+            document.getElementById("prev-investor").textContent = investor || "Select investor above";
+            document.getElementById("prev-ref").textContent = ref || "—";
+            document.getElementById("prev-title").textContent = titleMap[type] || titleMap.mid;
+            document.getElementById("prev-date").textContent = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+
+            if (d) {
+                document.getElementById("prev-amount").textContent = d.amount;
+                document.getElementById("prev-tenure").textContent = d.tenure;
+                document.getElementById("prev-start").textContent = d.start;
+                document.getElementById("prev-maturity").textContent = d.maturity;
+                document.getElementById("prev-rate").textContent = d.rate;
+                document.getElementById("prev-accrued").textContent = d.accrued;
+                document.getElementById("prev-value").textContent = d.value;
+                document.getElementById("prev-pct").textContent = d.pct + "%";
+                document.getElementById("prev-fill").style.width = d.pct + "%";
+            }
+        }
+
+        // Set today's date
+        document.getElementById("gen-date").value = new Date().toISOString().split("T")[0];
+        document.getElementById("prev-date").textContent = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+    </script>
+</body>
+
+</html>

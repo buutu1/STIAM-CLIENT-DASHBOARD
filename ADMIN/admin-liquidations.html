@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — Liquidation Requests</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" />
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div>
+        </div>
+        <div class="admin-badge">
+            <div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item" href="admin-dashboard.html" data-label="Dashboard"><span class="nav-icon">📊</span><span
+                    class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item" href="admin-investors.html" data-label="Investor Management"><span
+                    class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item" href="admin-investments.html" data-label="Investments"><span
+                    class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item active" href="admin-liquidations.html" data-label="Liquidation Requests"><span
+                    class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item" href="admin-support.html" data-label="Support Inbox"><span
+                    class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item" href="admin-statements.html" data-label="Statement Generator"><span
+                    class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+            <a class="nav-item" href="admin-users.html" data-label="User Management"><span
+                    class="nav-icon">🔑</span><span class="nav-text">User Management</span></a>
+            <a class="nav-item" href="admin-macro.html" data-label="Macro Indicators"><span
+                    class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span
+                    class="toggle-label">Collapse</span></button>
+            <div class="investor-chip">
+                <div class="avatar">AD</div>
+                <div class="chip-info">
+                    <div class="iname">Admin User</div>
+                    <div class="iid">STI Staff</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign
+                    Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Liquidation Requests</h1>
+                <p>Review and process investor liquidation requests</p>
+            </div>
+            <div class="topbar-right">
+                <div class="badge-date" id="today-date"></div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-label">Pending</div>
+                <div class="stat-value red">8</div>
+                <div class="stat-badge red">Awaiting review</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-label">Approved This Month</div>
+                <div class="stat-value green">23</div>
+                <div class="stat-badge green">Processed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <div class="stat-label">Rejected</div>
+                <div class="stat-value">4</div>
+                <div class="stat-badge">This month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-label">Total Paid Out</div>
+                <div class="stat-value orange">₦48.2M</div>
+                <div class="stat-badge orange">This month</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">Pending Requests</div>
+                <select class="filter-select">
+                    <option>All</option>
+                    <option>Emergency</option>
+                    <option>Reallocation</option>
+                    <option>Restructuring</option>
+                </select>
+            </div>
+
+            <table class="data-table" id="liq-table">
+                <thead>
+                    <tr>
+                        <th>Investor</th>
+                        <th>Reference</th>
+                        <th>Principal</th>
+                        <th>Current Value</th>
+                        <th>Penalty (est.)</th>
+                        <th>Reason</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bold">Isaac Kazeem</td>
+                        <td class="mono">REF-2024-001</td>
+                        <td>₦5,000,000</td>
+                        <td class="green">₦5,462,500</td>
+                        <td class="red">₦46,250</td>
+                        <td>Emergency funds</td>
+                        <td class="mono">Jan 19, 2025</td>
+                        <td><span class="pill pill-pending">Pending</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-success" onclick="approveLiquidation('REF-2024-001')">✓
+                                    Approve</button>
+                                <button class="btn-danger" onclick="rejectLiquidation('REF-2024-001')">✗ Reject</button>
+                                <button class="btn-ghost" onclick="openModal('liq-detail-modal')">Details</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Amara Obi</td>
+                        <td class="mono">REF-2024-007</td>
+                        <td>₦3,000,000</td>
+                        <td class="green">₦3,100,000</td>
+                        <td class="red">₦31,000</td>
+                        <td>Investment reallocation</td>
+                        <td class="mono">Jan 18, 2025</td>
+                        <td><span class="pill pill-pending">Pending</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-success" onclick="approveLiquidation('REF-2024-007')">✓
+                                    Approve</button>
+                                <button class="btn-danger" onclick="rejectLiquidation('REF-2024-007')">✗ Reject</button>
+                                <button class="btn-ghost" onclick="openModal('liq-detail-modal')">Details</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Femi Adebayo</td>
+                        <td class="mono">REF-2024-012</td>
+                        <td>₦8,000,000</td>
+                        <td class="green">₦8,250,000</td>
+                        <td class="red">₦82,500</td>
+                        <td>Portfolio restructuring</td>
+                        <td class="mono">Jan 17, 2025</td>
+                        <td><span class="pill pill-pending">Pending</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-success" onclick="approveLiquidation('REF-2024-012')">✓
+                                    Approve</button>
+                                <button class="btn-danger" onclick="rejectLiquidation('REF-2024-012')">✗ Reject</button>
+                                <button class="btn-ghost" onclick="openModal('liq-detail-modal')">Details</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Zainab Musa</td>
+                        <td class="mono">REF-2024-019</td>
+                        <td>₦5,000,000</td>
+                        <td class="green">₦5,300,000</td>
+                        <td class="red">₦53,000</td>
+                        <td>Emergency funds</td>
+                        <td class="mono">Jan 16, 2025</td>
+                        <td><span class="pill pill-pending">Pending</span></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-success" onclick="approveLiquidation('REF-2024-019')">✓
+                                    Approve</button>
+                                <button class="btn-danger" onclick="rejectLiquidation('REF-2024-019')">✗ Reject</button>
+                                <button class="btn-ghost" onclick="openModal('liq-detail-modal')">Details</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Liquidation Detail Modal -->
+    <div class="modal-overlay" id="liq-detail-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Liquidation Request — REF-2024-001</h2>
+                <button class="modal-close" onclick="closeModal('liq-detail-modal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-warning">⚠️ Early liquidation penalty of 10% on accrued interest applies. Estimated
+                    penalty: ₦46,250.</div>
+                <div class="detail-row"><span class="detail-key">Investor</span><span class="detail-val">Isaac Kazeem
+                        (03312)</span></div>
+                <div class="detail-row"><span class="detail-key">Reference</span><span
+                        class="detail-val mono">REF-2024-001</span></div>
+                <div class="detail-row"><span class="detail-key">Principal</span><span
+                        class="detail-val">₦5,000,000.00</span></div>
+                <div class="detail-row"><span class="detail-key">Accrued Interest</span><span
+                        class="detail-val green">₦462,500.00</span></div>
+                <div class="detail-row"><span class="detail-key">Estimated Penalty</span><span
+                        class="detail-val red">–₦46,250.00</span></div>
+                <div class="detail-row"><span class="detail-key">Net Payout</span><span
+                        class="detail-val orange">₦5,416,250.00</span></div>
+                <div class="detail-row"><span class="detail-key">Reason</span><span class="detail-val">Emergency funds
+                        needed</span></div>
+                <div class="detail-row"><span class="detail-key">Investor Notes</span><span class="detail-val">Medical
+                        emergency for family member.</span></div>
+                <div class="modal-field" style="margin-top:16px">
+                    <label>Admin Note (optional)</label>
+                    <textarea placeholder="Add an internal note about this decision…"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('liq-detail-modal')">Close</button>
+                <button class="btn-danger" onclick="rejectLiquidation('REF-2024-001');closeModal('liq-detail-modal')">✗
+                    Reject</button>
+                <button class="btn-save" style="background:var(--success)"
+                    onclick="approveLiquidation('REF-2024-001');closeModal('liq-detail-modal')">✓ Approve &
+                    Process</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+</body>
+
+</html>

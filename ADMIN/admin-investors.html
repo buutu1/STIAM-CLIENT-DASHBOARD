@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — Investor Management</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+        .investor-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--blue-mid));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .investor-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div>
+        </div>
+        <div class="admin-badge">
+            <div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item" href="admin-dashboard.html" data-label="Dashboard"><span class="nav-icon">📊</span><span
+                    class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item active" href="admin-investors.html" data-label="Investor Management"><span
+                    class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item" href="admin-investments.html" data-label="Investments"><span
+                    class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item" href="admin-liquidations.html" data-label="Liquidation Requests"><span
+                    class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item" href="admin-support.html" data-label="Support Inbox"><span
+                    class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item" href="admin-statements.html" data-label="Statement Generator"><span
+                    class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+            <a class="nav-item" href="admin-users.html" data-label="User Management"><span
+                    class="nav-icon">🔑</span><span class="nav-text">User Management</span></a>
+            <a class="nav-item" href="admin-macro.html" data-label="Macro Indicators"><span
+                    class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span
+                    class="toggle-label">Collapse</span></button>
+            <div class="investor-chip">
+                <div class="avatar">AD</div>
+                <div class="chip-info">
+                    <div class="iname">Admin User</div>
+                    <div class="iid">STI Staff</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign
+                    Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Investor Management</h1>
+                <p>View and manage all registered investors and their portfolios</p>
+            </div>
+            <div class="topbar-right">
+                <button class="btn-orange" onclick="openModal('investor-modal')">＋ Add Investor</button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="table-controls">
+                <input class="search-input" id="investor-search" placeholder="🔍  Search by name, ID or email…"
+                    oninput="filterTable('investor-search','investor-table')" />
+                <select class="filter-select">
+                    <option>All Investors</option>
+                    <option>Premium</option>
+                    <option>Standard</option>
+                    <option>KYC Pending</option>
+                </select>
+                <select class="filter-select">
+                    <option>All Managers</option>
+                    <option>Adaeze Okonkwo</option>
+                    <option>Tunde Bello</option>
+                    <option>Ngozi Eze</option>
+                </select>
+                <button class="btn-ghost">⬇ Export CSV</button>
+            </div>
+
+            <table class="data-table" id="investor-table">
+                <thead>
+                    <tr>
+                        <th>Investor</th>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Total Invested</th>
+                        <th>Portfolio Value</th>
+                        <th>Active Investments</th>
+                        <th>KYC</th>
+                        <th>Manager</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="investor-name-cell">
+                                <div class="investor-avatar">IK</div><span class="bold">Isaac Kazeem</span>
+                            </div>
+                        </td>
+                        <td class="mono">03312</td>
+                        <td class="mono">investor@stiassets.com</td>
+                        <td class="orange">₦15,000,000</td>
+                        <td class="green">₦16,387,500</td>
+                        <td>3</td>
+                        <td><span class="pill pill-active">✓ Verified</span></td>
+                        <td>Adaeze Okonkwo</td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="viewInvestor('Isaac Kazeem')">View</button><button class="btn-ghost"
+                                    onclick="showToast('Statement sent to investor email.','success')">📄
+                                    Statement</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="investor-name-cell">
+                                <div class="investor-avatar">AO</div><span class="bold">Amara Obi</span>
+                            </div>
+                        </td>
+                        <td class="mono">03313</td>
+                        <td class="mono">amara.obi@email.com</td>
+                        <td class="orange">₦8,000,000</td>
+                        <td class="green">₦8,720,000</td>
+                        <td>1</td>
+                        <td><span class="pill pill-active">✓ Verified</span></td>
+                        <td>Tunde Bello</td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="viewInvestor('Amara Obi')">View</button><button class="btn-ghost"
+                                    onclick="showToast('Statement sent.','success')">📄 Statement</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="investor-name-cell">
+                                <div class="investor-avatar">FA</div><span class="bold">Femi Adebayo</span>
+                            </div>
+                        </td>
+                        <td class="mono">03314</td>
+                        <td class="mono">femi.a@email.com</td>
+                        <td class="orange">₦25,000,000</td>
+                        <td class="green">₦27,812,500</td>
+                        <td>2</td>
+                        <td><span class="pill pill-active">✓ Verified</span></td>
+                        <td>Adaeze Okonkwo</td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="viewInvestor('Femi Adebayo')">View</button><button class="btn-ghost"
+                                    onclick="showToast('Statement sent.','success')">📄 Statement</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="investor-name-cell">
+                                <div class="investor-avatar">CN</div><span class="bold">Chidera Nwosu</span>
+                            </div>
+                        </td>
+                        <td class="mono">03315</td>
+                        <td class="mono">chidera.n@email.com</td>
+                        <td class="orange">₦2,500,000</td>
+                        <td class="green">₦2,777,500</td>
+                        <td>1</td>
+                        <td><span class="pill pill-pending">⏳ Pending</span></td>
+                        <td>Ngozi Eze</td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="viewInvestor('Chidera Nwosu')">View</button><button class="btn-ghost"
+                                    onclick="showToast('Statement sent.','success')">📄 Statement</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="investor-name-cell">
+                                <div class="investor-avatar">ZM</div><span class="bold">Zainab Musa</span>
+                            </div>
+                        </td>
+                        <td class="mono">03316</td>
+                        <td class="mono">zainab.m@email.com</td>
+                        <td class="orange">₦5,000,000</td>
+                        <td class="green">₦5,300,000</td>
+                        <td>1</td>
+                        <td><span class="pill pill-active">✓ Verified</span></td>
+                        <td>Tunde Bello</td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="viewInvestor('Zainab Musa')">View</button><button class="btn-ghost"
+                                    onclick="showToast('Statement sent.','success')">📄 Statement</button></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="investor-name-cell">
+                                <div class="investor-avatar">BT</div><span class="bold">Bola Tinuke</span>
+                            </div>
+                        </td>
+                        <td class="mono">03317</td>
+                        <td class="mono">bola.t@email.com</td>
+                        <td class="orange">₦12,000,000</td>
+                        <td class="green">₦13,440,000</td>
+                        <td>2</td>
+                        <td><span class="pill pill-active">✓ Verified</span></td>
+                        <td>Adaeze Okonkwo</td>
+                        <td>
+                            <div class="action-btns"><button class="btn-ghost"
+                                    onclick="viewInvestor('Bola Tinuke')">View</button><button class="btn-ghost"
+                                    onclick="showToast('Statement sent.','success')">📄 Statement</button></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="table-footer">
+                <span>Showing 6 of 247 investors</span>
+                <div class="pagination">
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <button class="page-btn">→</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Investor Detail Modal -->
+    <div class="modal-overlay" id="investor-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-investor-name">Investor Profile</h2>
+                <button class="modal-close" onclick="closeModal('investor-modal')">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="profile-header-card" style="margin-bottom:16px">
+                    <div class="profile-avatar-lg" id="modal-avatar">IK</div>
+                    <div class="profile-header-info">
+                        <div class="profile-name" id="modal-name">Isaac Kazeem</div>
+                        <div class="profile-meta">ID: 03312 &nbsp;·&nbsp; Premium Investor</div>
+                        <div class="profile-header-badges">
+                            <span class="profile-badge">✓ KYC Verified</span>
+                            <span class="profile-badge">✓ BVN Verified</span>
+                            <span class="profile-badge">Member since Jan 2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-row"><span class="detail-key">Email</span><span
+                        class="detail-val">investor@stiassets.com</span></div>
+                <div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">+234 916 543
+                        9544</span></div>
+                <div class="detail-row"><span class="detail-key">Address</span><span class="detail-val">12 Ademola
+                        Adetokunbo, VI</span></div>
+                <div class="detail-row"><span class="detail-key">Total Invested</span><span
+                        class="detail-val orange">₦15,000,000</span></div>
+                <div class="detail-row"><span class="detail-key">Portfolio Value</span><span
+                        class="detail-val green">₦16,387,500</span></div>
+                <div class="detail-row"><span class="detail-key">Active Investments</span><span
+                        class="detail-val">3</span></div>
+                <div class="detail-row"><span class="detail-key">Relationship Manager</span><span
+                        class="detail-val">Adaeze Okonkwo</span></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeModal('investor-modal')">Close</button>
+                <button class="btn-save"
+                    onclick="showToast('Statement generated and sent.','success');closeModal('investor-modal')">Send
+                    Statement</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+    <script>
+        function viewInvestor(name) {
+            document.getElementById("modal-investor-name").textContent = name + " — Profile";
+            document.getElementById("modal-name").textContent = name;
+            document.getElementById("modal-avatar").textContent = name.split(" ").map(w => w[0]).join("").slice(0, 2);
+            openModal("investor-modal");
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STI Assets — Full Stack Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #033669;
+    --blue-mid: #044d96;
+    --blue-light: #e8f0fa;
+    --orange: #F68634;
+    --orange-pale: #fff4eb;
+    --green: #16A34A;
+    --green-pale: #e8f5ee;
+    --red: #DC2626;
+    --red-pale: #fef2f2;
+    --purple: #7C3AED;
+    --purple-pale: #f3f0ff;
+    --teal: #0891B2;
+    --teal-pale: #e0f7fa;
+    --slate: #64748B;
+    --border: #E2E8F0;
+    --bg: #F8FAFC;
+    --white: #ffffff;
+    --text: #1e293b;
+    --radius: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: linear-gradient(135deg, var(--blue) 0%, #044d96 60%, #0a6dd4 100%);
+    color: white;
+    padding: 60px 48px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(246,134,52,0.25) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 30%;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .page-header p {
+    color: rgba(255,255,255,0.7);
+    font-size: 16px;
+    max-width: 600px;
+    position: relative;
+    z-index: 1;
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 32px;
+    position: relative;
+    z-index: 1;
+  }
+  .header-chip {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px 80px;
+  }
+
+  /* ── SUMMARY BOX ── */
+  .summary-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--orange);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin: 40px 0 48px;
+    box-shadow: 0 2px 12px rgba(3,54,105,0.06);
+  }
+  .summary-box h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+  }
+  .summary-box p {
+    color: var(--slate);
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 56px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-number {
+    width: 36px;
+    height: 36px;
+    background: var(--blue);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--blue);
+  }
+  .section-header .badge {
+    margin-left: auto;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* ── ARCHITECTURE FLOW DIAGRAM ── */
+  .arch-diagram {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px;
+    margin-bottom: 32px;
+    box-shadow: 0 2px 12px rgba(3,54,105,0.05);
+    overflow-x: auto;
+  }
+  .diagram-title {
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--slate);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .arch-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    min-width: 600px;
+  }
+  .arch-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .arch-box {
+    border-radius: 10px;
+    padding: 14px 20px;
+    text-align: center;
+    min-width: 130px;
+    flex: 1;
+    max-width: 180px;
+  }
+  .arch-box .box-icon { font-size: 22px; margin-bottom: 4px; }
+  .arch-box .box-label { font-size: 12px; font-weight: 600; line-height: 1.3; }
+  .arch-box .box-sub { font-size: 10px; opacity: 0.7; margin-top: 2px; font-family: 'DM Mono', monospace; }
+
+  .box-client { background: var(--blue-light); color: var(--blue); border: 1px solid #c3d8f5; }
+  .box-cdn { background: var(--orange-pale); color: #c45e0a; border: 1px solid #fcd4aa; }
+  .box-lb { background: var(--purple-pale); color: var(--purple); border: 1px solid #d8c9ff; }
+  .box-app { background: var(--green-pale); color: #0f6b32; border: 1px solid #b7e4c7; }
+  .box-api { background: var(--teal-pale); color: var(--teal); border: 1px solid #b2ebf2; }
+  .box-db { background: var(--blue-light); color: var(--blue); border: 1px solid #c3d8f5; }
+  .box-cache { background: var(--red-pale); color: var(--red); border: 1px solid #fecaca; }
+  .box-auth { background: var(--orange-pale); color: #c45e0a; border: 1px solid #fcd4aa; }
+  .box-storage { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  .box-monitor { background: #fefce8; color: #854d0e; border: 1px solid #fde68a; }
+
+  .arch-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 0;
+  }
+  .arrow-line {
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--border), var(--slate));
+  }
+  .arrow-head {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--slate);
+  }
+  .arrow-label {
+    font-size: 10px;
+    color: var(--slate);
+    font-family: 'DM Mono', monospace;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+
+  /* ── COMPONENT CARD ── */
+  .component-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .component-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(3,54,105,0.05);
+  }
+  .card-header {
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .card-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--blue);
+  }
+  .card-header .rec {
+    margin-left: auto;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+  .card-body {
+    padding: 18px 22px;
+  }
+  .card-body p {
+    color: var(--slate);
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .feature-list li {
+    font-size: 13px;
+    color: var(--text);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .feature-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--orange);
+    font-size: 11px;
+  }
+
+  /* ── TECH STACK TABLE ── */
+  .tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(3,54,105,0.05);
+    border: 1px solid var(--border);
+  }
+  .tech-table th {
+    background: var(--blue);
+    color: white;
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .tech-table td {
+    padding: 13px 20px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .tech-table tr:last-child td { border-bottom: none; }
+  .tech-table tr:hover td { background: var(--bg); }
+  .tech-table td:first-child { color: var(--blue); font-weight: 600; }
+  .tech-table td:nth-child(2) { font-family: 'DM Mono', monospace; color: var(--teal); font-size: 12px; }
+  .tech-table td:last-child { color: var(--slate); }
+
+  /* ── FLOW STEPS ── */
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .flow-step {
+    display: flex;
+    gap: 20px;
+    position: relative;
+  }
+  .flow-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 40px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--orange), transparent);
+  }
+  .step-num {
+    width: 36px;
+    height: 36px;
+    background: var(--orange);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-body {
+    padding: 6px 0 28px;
+  }
+  .step-body h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 4px;
+  }
+  .step-body p {
+    font-size: 13px;
+    color: var(--slate);
+    line-height: 1.65;
+  }
+
+  /* ── SECURITY GRID ── */
+  .security-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .sec-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 1px 6px rgba(3,54,105,0.04);
+  }
+  .sec-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  .sec-card h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 6px;
+  }
+  .sec-card p {
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* ── DB SCHEMA ── */
+  .schema-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .schema-table {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .schema-table-header {
+    background: var(--blue);
+    color: white;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+  }
+  .schema-field {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .schema-field:last-child { border-bottom: none; }
+  .field-name { color: var(--text); font-family: 'DM Mono', monospace; }
+  .field-type { color: var(--teal); font-family: 'DM Mono', monospace; font-size: 11px; }
+  .field-pk { color: var(--orange); font-size: 10px; font-weight: 600; }
+
+  /* ── ENV TAG ── */
+  .env-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .env-prod { background: var(--green-pale); color: var(--green); }
+  .env-staging { background: var(--orange-pale); color: #c45e0a; }
+  .env-dev { background: var(--blue-light); color: var(--blue); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout-info { background: var(--blue-light); border: 1px solid #c3d8f5; }
+  .callout-warn { background: var(--orange-pale); border: 1px solid #fcd4aa; }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout p { font-size: 13px; color: var(--text); line-height: 1.65; }
+  .callout strong { color: var(--blue); }
+
+  /* ── INFRA PHASES ── */
+  .phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .phase-card {
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border);
+  }
+  .phase-1 { background: var(--green-pale); border-color: #b7e4c7; }
+  .phase-2 { background: var(--orange-pale); border-color: #fcd4aa; }
+  .phase-3 { background: var(--blue-light); border-color: #c3d8f5; }
+  .phase-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .phase-1 h4 { color: #0f6b32; }
+  .phase-2 h4 { color: #c45e0a; }
+  .phase-3 h4 { color: var(--blue); }
+  .phase-card .phase-label { font-size: 10px; font-family: 'DM Mono', monospace; opacity: 0.6; margin-bottom: 12px; }
+  .phase-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .phase-card ul li { font-size: 12px; color: var(--text); padding-left: 14px; position: relative; }
+  .phase-card ul li::before { content: '•'; position: absolute; left: 0; }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: white;
+    border-top: 2px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 60px;
+  }
+  .doc-footer .brand { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--blue); }
+  .doc-footer p { font-size: 12px; color: var(--slate); font-family: 'DM Mono', monospace; }
+
+  @media (max-width: 768px) {
+    .page-header { padding: 40px 24px 32px; }
+    .page-header h1 { font-size: 28px; }
+    .container { padding: 0 16px 60px; }
+    .component-grid, .security-grid, .schema-grid, .phases { grid-template-columns: 1fr; }
+    .header-meta { flex-wrap: wrap; gap: 8px; }
+  }
+
+  @media print {
+    body { background: white; }
+    .page-header { background: var(--blue) !important; -webkit-print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="header-label">Technical Architecture Document</div>
+  <h1>STI Assets Investor Portal<br>Full-Stack Architecture</h1>
+  <p>Complete system design covering frontend, backend, database, API layer, infrastructure, and security components for a production-grade investment management web application.</p>
+  <div class="header-meta">
+    <span class="header-chip">v1.0 · Feb 2026</span>
+    <span class="header-chip">Confidential</span>
+    <span class="header-chip">STI Assets Ltd</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SUMMARY -->
+  <div class="summary-box">
+    <h2>Project Summary</h2>
+    <p>
+      The STI Assets Investor Portal is a multi-role web application that allows clients to view their investment portfolios in real time, while an internal accounts team manages and enters investment data. The frontend (HTML, CSS, JavaScript) has been completed and includes a login page, dashboard, investments page, statements, macro indicators, accounts settings, and a get help page — all sharing a single CSS and JS file with a collapsible sidebar. This document defines the complete architecture needed to make this a fully functioning, production-ready web application.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 1: ARCHITECTURE OVERVIEW -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <h2>System Architecture Overview</h2>
+      <span class="badge">HIGH LEVEL</span>
+    </div>
+
+    <div class="arch-diagram">
+      <div class="diagram-title">// Request Flow — User → Server → Database</div>
+      <div class="arch-flow">
+
+        <!-- Row: Clients -->
+        <div class="arch-row">
+          <div class="arch-box box-client">
+            <div class="box-icon">💻</div>
+            <div class="box-label">Client Browser</div>
+            <div class="box-sub">Investor / Admin</div>
+          </div>
+          <div class="arch-box box-client">
+            <div class="box-icon">📱</div>
+            <div class="box-label">Mobile Browser</div>
+            <div class="box-sub">Responsive HTML</div>
+          </div>
+        </div>
+
+        <div class="arch-arrow">
+          <div class="arrow-label">HTTPS / TLS 1.3</div>
+          <div class="arrow-line"></div>
+          <div class="arrow-head"></div>
+        </div>
+
+        <!-- Row: CDN + Load Balancer -->
+        <div class="arch-row">
+          <div class="arch-box box-cdn">
+            <div class="box-icon">🌐</div>
+            <div class="box-label">CDN</div>
+            <div class="box-sub">Cloudflare</div>
+          </div>
+          <div class="arch-box box-lb">
+            <div class="box-icon">⚖️</div>
+            <div class="box-label">Load Balancer</div>
+            <div class="box-sub">Nginx / AWS ALB</div>
+          </div>
+          <div class="arch-box box-auth">
+            <div class="box-icon">🔐</div>
+            <div class="box-label">Auth Layer</div>
+            <div class="box-sub">Supabase Auth</div>
+          </div>
+        </div>
+
+        <div class="arch-arrow">
+          <div class="arrow-label">Internal Network</div>
+          <div class="arrow-line"></div>
+          <div class="arrow-head"></div>
+        </div>
+
+        <!-- Row: App + API -->
+        <div class="arch-row">
+          <div class="arch-box box-app">
+            <div class="box-icon">🖥️</div>
+            <div class="box-label">Web Server</div>
+            <div class="box-sub">Nginx (Static)</div>
+          </div>
+          <div class="arch-box box-api">
+            <div class="box-icon">⚡</div>
+            <div class="box-label">API Server</div>
+            <div class="box-sub">Node.js / Express</div>
+          </div>
+          <div class="arch-box box-cache">
+            <div class="box-icon">🔴</div>
+            <div class="box-label">Cache Layer</div>
+            <div class="box-sub">Redis</div>
+          </div>
+        </div>
+
+        <div class="arch-arrow">
+          <div class="arrow-label">DB Connections (SSL)</div>
+          <div class="arrow-line"></div>
+          <div class="arrow-head"></div>
+        </div>
+
+        <!-- Row: DB + Storage -->
+        <div class="arch-row">
+          <div class="arch-box box-db">
+            <div class="box-icon">🗄️</div>
+            <div class="box-label">Primary Database</div>
+            <div class="box-sub">PostgreSQL (Supabase)</div>
+          </div>
+          <div class="arch-box box-storage">
+            <div class="box-icon">📦</div>
+            <div class="box-label">File Storage</div>
+            <div class="box-sub">Supabase Storage</div>
+          </div>
+          <div class="arch-box box-monitor">
+            <div class="box-icon">📊</div>
+            <div class="box-label">Monitoring</div>
+            <div class="box-sub">Sentry / Datadog</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 2: FRONTEND -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">02</div>
+      <h2>Frontend (Already Built)</h2>
+      <span class="badge">COMPLETE</span>
+    </div>
+
+    <div class="component-grid">
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-client">🖥️</div>
+          <div>
+            <h3>Pages & Navigation</h3>
+          </div>
+          <span class="rec env-prod">7 Pages</span>
+        </div>
+        <div class="card-body">
+          <ul class="feature-list">
+            <li>login.html — JWT session-protected login form</li>
+            <li>dashboard.html — Portfolio overview, stats, chart</li>
+            <li>investments.html — Investment cards, liquidate/top-up modals</li>
+            <li>statements.html — Document preview + print-to-PDF</li>
+            <li>macro.html — Macroeconomic indicators</li>
+            <li>accounts.html — Profile & password management</li>
+            <li>gethelp.html — Support tickets & FAQ</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-cdn">🎨</div>
+          <div>
+            <h3>Shared Assets</h3>
+          </div>
+          <span class="rec env-prod">3 Files</span>
+        </div>
+        <div class="card-body">
+          <ul class="feature-list">
+            <li>styles.css — Single CSS file for all pages, brand colors #033669 / #F68634</li>
+            <li>login.js — Shared JS: auth guard, sidebar toggle, modals, progress bars</li>
+            <li>Collapsible sidebar (static on desktop, toggle overlay on mobile)</li>
+            <li>sessionStorage-based auth guard redirects unauthenticated users</li>
+            <li>Responsive layout with 768px breakpoint</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--green-pale);font-size:18px;">✅</div>
+          <div>
+            <h3>What's Working Now</h3>
+          </div>
+          <span class="rec env-dev">Demo Mode</span>
+        </div>
+        <div class="card-body">
+          <ul class="feature-list">
+            <li>Hardcoded demo credentials (investor@stiassets.com / portfolio123)</li>
+            <li>sessionStorage session management (login / logout / back-button guard)</li>
+            <li>All UI interactions: modals, toasts, tabs, accordion, chart SVG</li>
+            <li>Print-to-PDF for statements</li>
+            <li>Progress bar animations on page load</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon" style="background:var(--orange-pale);font-size:18px;">🔧</div>
+          <div>
+            <h3>What Needs to Be Connected</h3>
+          </div>
+          <span class="rec env-staging">Next Steps</span>
+        </div>
+        <div class="card-body">
+          <ul class="feature-list">
+            <li>Replace hardcoded demo credentials with real Supabase Auth calls</li>
+            <li>Replace static PORTFOLIO_DATA object with live API data</li>
+            <li>Replace sessionStorage with JWT token (httpOnly cookie)</li>
+            <li>Connect liquidate / top-up forms to API endpoints</li>
+            <li>Connect profile/password forms to Auth and database</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 3: BACKEND / API -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">03</div>
+      <h2>Backend — Application Server & API Layer</h2>
+      <span class="badge">TO BUILD</span>
+    </div>
+
+    <div class="component-grid" style="margin-bottom:24px;">
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-api">⚡</div>
+          <div>
+            <h3>Application Server</h3>
+          </div>
+          <span class="rec" style="background:var(--green-pale);color:var(--green);">Node.js + Express</span>
+        </div>
+        <div class="card-body">
+          <p>A RESTful API server handles all business logic between the frontend and database. It processes requests, enforces authorization, and returns structured JSON responses.</p>
+          <ul class="feature-list">
+            <li>Node.js runtime with Express.js framework</li>
+            <li>JWT middleware for verifying auth tokens on every protected route</li>
+            <li>Role-based middleware: client vs accounts-team vs admin</li>
+            <li>Input validation with Joi or Zod before any DB query</li>
+            <li>Structured error responses (HTTP status codes + error codes)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-auth">🔐</div>
+          <div>
+            <h3>Authentication Service</h3>
+          </div>
+          <span class="rec" style="background:var(--orange-pale);color:#c45e0a;">Supabase Auth</span>
+        </div>
+        <div class="card-body">
+          <p>Supabase Auth handles user registration, login, password reset, and JWT token issuance — so you don't have to build any of this from scratch.</p>
+          <ul class="feature-list">
+            <li>Email + password auth with bcrypt hashing</li>
+            <li>JWT access tokens (15 min expiry) + refresh tokens (7 days)</li>
+            <li>Password reset via email OTP link</li>
+            <li>Row-Level Security (RLS) policies so clients only see their own data</li>
+            <li>Separate staff table for accounts team roles</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Endpoints Table -->
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Endpoint</th>
+          <th>Method</th>
+          <th>Who Can Call</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>/auth/login</td>
+          <td>POST</td>
+          <td>Public</td>
+          <td>Authenticates user, returns JWT + refresh token</td>
+        </tr>
+        <tr>
+          <td>/auth/logout</td>
+          <td>POST</td>
+          <td>Authenticated</td>
+          <td>Invalidates refresh token, clears session</td>
+        </tr>
+        <tr>
+          <td>/auth/reset-password</td>
+          <td>POST</td>
+          <td>Public</td>
+          <td>Sends password reset link to registered email</td>
+        </tr>
+        <tr>
+          <td>/api/portfolio</td>
+          <td>GET</td>
+          <td>Client</td>
+          <td>Returns client's full portfolio overview and stats</td>
+        </tr>
+        <tr>
+          <td>/api/investments</td>
+          <td>GET</td>
+          <td>Client</td>
+          <td>Lists all investment records for the authenticated client</td>
+        </tr>
+        <tr>
+          <td>/api/investments/:id/liquidate</td>
+          <td>POST</td>
+          <td>Client</td>
+          <td>Submits a liquidation request for a specific investment</td>
+        </tr>
+        <tr>
+          <td>/api/investments/:id/topup</td>
+          <td>POST</td>
+          <td>Client</td>
+          <td>Submits a top-up / additional investment request</td>
+        </tr>
+        <tr>
+          <td>/api/statements/:id</td>
+          <td>GET</td>
+          <td>Client</td>
+          <td>Generates and returns PDF statement for an investment</td>
+        </tr>
+        <tr>
+          <td>/api/profile</td>
+          <td>GET / PATCH</td>
+          <td>Client</td>
+          <td>Reads or updates client profile information</td>
+        </tr>
+        <tr>
+          <td>/api/support/ticket</td>
+          <td>POST</td>
+          <td>Client</td>
+          <td>Creates a new support ticket</td>
+        </tr>
+        <tr>
+          <td>/admin/clients</td>
+          <td>GET</td>
+          <td>Accounts Team</td>
+          <td>Lists all registered clients</td>
+        </tr>
+        <tr>
+          <td>/admin/clients/:id/investment</td>
+          <td>POST / PATCH</td>
+          <td>Accounts Team</td>
+          <td>Creates or updates investment data for a client</td>
+        </tr>
+        <tr>
+          <td>/admin/macro</td>
+          <td>POST / PATCH</td>
+          <td>Admin</td>
+          <td>Updates macroeconomic indicator values</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-info" style="margin-top:20px;">
+      <div class="callout-icon">💡</div>
+      <p><strong>Supabase shortcut:</strong> Supabase auto-generates a REST API for every table you create — so for simple CRUD operations (read portfolio, update profile) you can call Supabase's built-in API directly from the frontend using the Supabase JS client, skipping the custom Node server entirely. Only build the custom Express server for complex business logic like statement PDF generation, macro data aggregation, or payment gateway integration.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 4: DATABASE -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">04</div>
+      <h2>Database — PostgreSQL via Supabase</h2>
+      <span class="badge">SUPABASE</span>
+    </div>
+
+    <div class="schema-grid">
+      <div class="schema-table">
+        <div class="schema-table-header">👤 clients</div>
+        <div class="schema-field"><span class="field-name">id</span><span class="field-pk">PK · UUID</span></div>
+        <div class="schema-field"><span class="field-name">first_name</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">last_name</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">email</span><span class="field-type">TEXT UNIQUE</span></div>
+        <div class="schema-field"><span class="field-name">phone</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">dob</span><span class="field-type">DATE</span></div>
+        <div class="schema-field"><span class="field-name">address</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">state</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">lga</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">country</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMPTZ</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">💼 investments</div>
+        <div class="schema-field"><span class="field-name">id</span><span class="field-pk">PK · UUID</span></div>
+        <div class="schema-field"><span class="field-name">client_id</span><span class="field-type">FK → clients</span></div>
+        <div class="schema-field"><span class="field-name">reference</span><span class="field-type">TEXT UNIQUE</span></div>
+        <div class="schema-field"><span class="field-name">type</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">principal</span><span class="field-type">NUMERIC</span></div>
+        <div class="schema-field"><span class="field-name">interest_rate</span><span class="field-type">NUMERIC</span></div>
+        <div class="schema-field"><span class="field-name">tenure_months</span><span class="field-type">INTEGER</span></div>
+        <div class="schema-field"><span class="field-name">start_date</span><span class="field-type">DATE</span></div>
+        <div class="schema-field"><span class="field-name">maturity_date</span><span class="field-type">DATE</span></div>
+        <div class="schema-field"><span class="field-name">status</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">entered_by</span><span class="field-type">FK → staff</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">👥 staff</div>
+        <div class="schema-field"><span class="field-name">id</span><span class="field-pk">PK · UUID</span></div>
+        <div class="schema-field"><span class="field-name">full_name</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">email</span><span class="field-type">TEXT UNIQUE</span></div>
+        <div class="schema-field"><span class="field-name">role</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMPTZ</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">📋 transactions</div>
+        <div class="schema-field"><span class="field-name">id</span><span class="field-pk">PK · UUID</span></div>
+        <div class="schema-field"><span class="field-name">investment_id</span><span class="field-type">FK → investments</span></div>
+        <div class="schema-field"><span class="field-name">type</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">amount</span><span class="field-type">NUMERIC</span></div>
+        <div class="schema-field"><span class="field-name">status</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">note</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMPTZ</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">🌍 macro_indicators</div>
+        <div class="schema-field"><span class="field-name">id</span><span class="field-pk">PK · UUID</span></div>
+        <div class="schema-field"><span class="field-name">name</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">category</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">value</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">change</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">direction</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMPTZ</span></div>
+      </div>
+
+      <div class="schema-table">
+        <div class="schema-table-header">🎫 support_tickets</div>
+        <div class="schema-field"><span class="field-name">id</span><span class="field-pk">PK · UUID</span></div>
+        <div class="schema-field"><span class="field-name">client_id</span><span class="field-type">FK → clients</span></div>
+        <div class="schema-field"><span class="field-name">subject</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">priority</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">message</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">status</span><span class="field-type">TEXT</span></div>
+        <div class="schema-field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMPTZ</span></div>
+      </div>
+    </div>
+
+    <div class="callout callout-warn" style="margin-top:20px;">
+      <div class="callout-icon">⚠️</div>
+      <p><strong>Row-Level Security (RLS):</strong> Every table in Supabase must have RLS enabled. The policy on <code>investments</code> should be: <em>"A client can only SELECT rows where client_id = auth.uid()"</em>. Staff bypass RLS using a service role key stored only on the server — never exposed to the browser.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 5: WEB SERVER -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">05</div>
+      <h2>Web Server</h2>
+      <span class="badge">NGINX</span>
+    </div>
+
+    <div class="component-grid">
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-app">🖥️</div>
+          <div><h3>Static File Server (Nginx)</h3></div>
+        </div>
+        <div class="card-body">
+          <p>Nginx serves your HTML, CSS, and JS files directly. It is extremely fast at serving static content and handles thousands of concurrent connections with minimal memory.</p>
+          <ul class="feature-list">
+            <li>Serves all HTML pages from <code>/var/www/stiassets/</code></li>
+            <li>Gzip compression on HTML, CSS, JS (60–80% size reduction)</li>
+            <li>Cache-Control headers: CSS/JS cached for 1 year, HTML no-cache</li>
+            <li>Redirect all HTTP → HTTPS automatically</li>
+            <li>TLS termination using Let's Encrypt SSL certificate</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-lb">⚖️</div>
+          <div><h3>Reverse Proxy (Nginx → API)</h3></div>
+        </div>
+        <div class="card-body">
+          <p>Nginx also acts as a reverse proxy — it receives API requests on <code>/api/*</code> and forwards them to your Node.js Express server running internally.</p>
+          <ul class="feature-list">
+            <li>Routes <code>/api/*</code> → Node.js on port 3000</li>
+            <li>Routes <code>/*</code> → static HTML files</li>
+            <li>Rate limiting: max 100 requests/min per IP on <code>/auth/*</code> routes</li>
+            <li>Request timeout: 30s to prevent hung connections</li>
+            <li>Security headers: X-Frame-Options, X-Content-Type, HSTS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 6: CDN -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">06</div>
+      <h2>CDN — Content Delivery Network</h2>
+      <span class="badge">CLOUDFLARE</span>
+    </div>
+
+    <div class="component-grid">
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-cdn">🌐</div>
+          <div><h3>Cloudflare (Free Tier Recommended)</h3></div>
+        </div>
+        <div class="card-body">
+          <p>Cloudflare sits in front of everything. Nigerian investors will load the site from Cloudflare's Lagos PoP, not your origin server — making load times 3–5× faster.</p>
+          <ul class="feature-list">
+            <li>Global edge caching of CSS, JS, images</li>
+            <li>DDoS protection (included free)</li>
+            <li>DNS management and SSL certificate (free)</li>
+            <li>Nigerian PoP in Lagos — fast for local users</li>
+            <li>Page Rules: bypass cache for <code>/api/*</code>, cache everything else</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-cache">🔴</div>
+          <div><h3>Redis Cache (Server-Side)</h3></div>
+        </div>
+        <div class="card-body">
+          <p>Redis caches frequently-read data server-side to reduce database load. Portfolio data, for example, only changes when the accounts team updates it — no need to query Postgres on every page load.</p>
+          <ul class="feature-list">
+            <li>Cache portfolio data per client (TTL: 5 minutes)</li>
+            <li>Cache macro indicator data (TTL: 1 hour)</li>
+            <li>Invalidate cache when accounts team updates a client record</li>
+            <li>Store rate-limit counters for API endpoints</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 7: LOAD BALANCER -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">07</div>
+      <h2>Load Balancer</h2>
+      <span class="badge">SCALING</span>
+    </div>
+
+    <div class="component-grid">
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-lb">⚖️</div>
+          <div><h3>Phase 1: Nginx (Built-In)</h3></div>
+          <span class="rec env-dev">Now</span>
+        </div>
+        <div class="card-body">
+          <p>At launch, Nginx itself handles load balancing by distributing requests across multiple Node.js processes using PM2's cluster mode — no separate load balancer needed.</p>
+          <ul class="feature-list">
+            <li>PM2 cluster mode: spawns one Node.js worker per CPU core</li>
+            <li>Round-robin distribution across workers</li>
+            <li>Zero-downtime restarts when deploying new code</li>
+            <li>Handles hundreds of concurrent users on a single server</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="component-card">
+        <div class="card-header">
+          <div class="card-icon box-lb">🔀</div>
+          <div><h3>Phase 2: AWS ALB or DigitalOcean LB</h3></div>
+          <span class="rec env-staging">When Scaling</span>
+        </div>
+        <div class="card-body">
+          <p>When traffic grows beyond a single server, introduce a cloud load balancer to distribute requests across multiple VMs (droplets or EC2 instances).</p>
+          <ul class="feature-list">
+            <li>Health checks every 30s — removes unhealthy servers automatically</li>
+            <li>Sticky sessions for WebSocket connections if added later</li>
+            <li>SSL termination at the load balancer level</li>
+            <li>Auto-scaling rules based on CPU usage thresholds</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 8: SECURITY -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">08</div>
+      <h2>Security Components</h2>
+      <span class="badge">CRITICAL</span>
+    </div>
+
+    <div class="security-grid">
+      <div class="sec-card">
+        <div class="sec-icon">🔑</div>
+        <h4>Authentication & Sessions</h4>
+        <p>Replace sessionStorage with httpOnly cookies storing a JWT. HttpOnly prevents JavaScript from reading the token — defending against XSS attacks. Set SameSite=Strict and Secure flags.</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">🛡️</div>
+        <h4>HTTPS / TLS Everywhere</h4>
+        <p>All traffic must use TLS 1.2 minimum (TLS 1.3 preferred). Enforce HSTS header so browsers always use HTTPS. Cloudflare or Let's Encrypt provides the certificate for free.</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">🚧</div>
+        <h4>Rate Limiting</h4>
+        <p>Nginx rate limits /auth/login to 10 attempts per minute per IP. After 5 failed logins, lock the account for 15 minutes. Prevents brute-force attacks on client credentials.</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">🔒</div>
+        <h4>Row-Level Security (RLS)</h4>
+        <p>Supabase RLS policies ensure every database query is automatically filtered by the authenticated user's ID. A client literally cannot query another client's rows — enforced at the DB level.</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">🧹</div>
+        <h4>Input Sanitization</h4>
+        <p>All API inputs validated with Joi/Zod before hitting the database. All database queries use parameterized statements — never string concatenation. Prevents SQL injection and XSS.</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">📋</div>
+        <h4>Audit Logging</h4>
+        <p>Every write action (investment created, profile updated, liquidation requested) is logged with timestamp, user ID, and IP address in an audit_logs table. Never delete logs.</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">🔐</div>
+        <h4>Environment Variables</h4>
+        <p>Database URLs, Supabase service keys, and JWT secrets are stored in .env files on the server — never in code, never committed to Git. Use a secrets manager in production (AWS Secrets Manager or Doppler).</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">🌐</div>
+        <h4>CORS Policy</h4>
+        <p>The API server only accepts requests from your exact frontend domain (e.g., investors.stiassets.com). All other origins are rejected. Prevents unauthorized third-party sites from calling your API.</p>
+      </div>
+
+      <div class="sec-card">
+        <div class="sec-icon">📧</div>
+        <h4>2FA (Future)</h4>
+        <p>Add TOTP-based two-factor authentication (Google Authenticator) for all accounts team and admin logins. Supabase Auth natively supports TOTP — can be enabled with minimal code changes.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 9: DATA FLOW -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">09</div>
+      <h2>Key Data Flow — How It All Works Together</h2>
+      <span class="badge">USER JOURNEY</span>
+    </div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Client Signs Up</h4>
+          <p>Client fills out the signup form → frontend calls Supabase Auth → Supabase creates a user record in auth.users and sends a verification email → client verifies → a matching row is created in the clients table via a database trigger.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Accounts Team Enters Investment Data</h4>
+          <p>Accounts team logs into the admin portal using their own credentials → they search for the client → they fill in: investment type, principal, interest rate, tenure, start date, maturity date → the record is written to the investments table with their staff ID as entered_by → the client's portfolio is now populated.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Client Logs In and Views Dashboard</h4>
+          <p>Client submits login form → frontend calls Supabase Auth → on success, a JWT is returned and stored in an httpOnly cookie → dashboard HTML loads → JavaScript calls GET /api/portfolio with the JWT cookie → API verifies the token, queries Postgres (filtered by RLS), returns the client's portfolio data → JavaScript renders the stat cards, progress bars, and chart.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Client Requests Liquidation</h4>
+          <p>Client clicks Liquidate on an investment → modal opens → client selects reason and confirms → frontend calls POST /api/investments/:id/liquidate → API logs the transaction request in the transactions table with status "pending" → accounts team sees the request in their admin dashboard → they process it manually and update the status to "approved" or "rejected".</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Client Logs Out</h4>
+          <p>Client clicks Sign Out → frontend calls POST /auth/logout → server invalidates the refresh token in Supabase → httpOnly cookie is cleared → window.location.replace("login.html") → browser cannot go back because the cookie is gone and the auth guard on every page will catch and redirect them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 10: TECH STACK SUMMARY -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>Full Technology Stack</h2>
+      <span class="badge">REFERENCE</span>
+    </div>
+
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Technology</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Frontend</td>
+          <td>HTML5 / CSS3 / Vanilla JS</td>
+          <td>All pages, styles, and client-side logic — already built</td>
+        </tr>
+        <tr>
+          <td>Auth</td>
+          <td>Supabase Auth</td>
+          <td>User registration, login, JWT, password reset, 2FA</td>
+        </tr>
+        <tr>
+          <td>API Server</td>
+          <td>Node.js + Express.js</td>
+          <td>Business logic, protected endpoints, PDF generation</td>
+        </tr>
+        <tr>
+          <td>Database</td>
+          <td>PostgreSQL (Supabase)</td>
+          <td>All persistent data with RLS security policies</td>
+        </tr>
+        <tr>
+          <td>Cache</td>
+          <td>Redis</td>
+          <td>Portfolio data caching, rate limit counters</td>
+        </tr>
+        <tr>
+          <td>Web Server</td>
+          <td>Nginx</td>
+          <td>Static file serving, reverse proxy, SSL termination</td>
+        </tr>
+        <tr>
+          <td>Process Manager</td>
+          <td>PM2</td>
+          <td>Node.js clustering, zero-downtime deploys, auto-restart</td>
+        </tr>
+        <tr>
+          <td>CDN</td>
+          <td>Cloudflare</td>
+          <td>Edge caching, DDoS protection, DNS, free SSL</td>
+        </tr>
+        <tr>
+          <td>Load Balancer</td>
+          <td>Nginx (→ AWS ALB at scale)</td>
+          <td>Distributes traffic across Node workers / servers</td>
+        </tr>
+        <tr>
+          <td>File Storage</td>
+          <td>Supabase Storage</td>
+          <td>Statement PDFs, uploaded documents, KYC files</td>
+        </tr>
+        <tr>
+          <td>PDF Generation</td>
+          <td>Puppeteer or PDFKit</td>
+          <td>Server-side statement PDF generation</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>Resend or SendGrid</td>
+          <td>Password reset emails, investment confirmations</td>
+        </tr>
+        <tr>
+          <td>Monitoring</td>
+          <td>Sentry + Datadog</td>
+          <td>Error tracking, uptime alerts, performance monitoring</td>
+        </tr>
+        <tr>
+          <td>Hosting</td>
+          <td>DigitalOcean Droplet or AWS EC2</td>
+          <td>Ubuntu VPS running Nginx + Node.js</td>
+        </tr>
+        <tr>
+          <td>CI/CD</td>
+          <td>GitHub Actions</td>
+          <td>Auto-deploy on git push to main branch</td>
+        </tr>
+        <tr>
+          <td>Secrets</td>
+          <td>.env + Doppler</td>
+          <td>API keys, DB credentials, JWT secrets — never in code</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <!-- SECTION 11: DEPLOYMENT PHASES -->
+  <!-- ═══════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2>Recommended Deployment Phases</h2>
+      <span class="badge">ROADMAP</span>
+    </div>
+
+    <div class="phases">
+      <div class="phase-card phase-1">
+        <h4>Phase 1 — MVP</h4>
+        <div class="phase-label">Month 1–2</div>
+        <ul>
+          <li>Connect frontend to Supabase Auth</li>
+          <li>Replace demo data with live DB queries</li>
+          <li>Build admin portal for accounts team</li>
+          <li>Deploy on single DigitalOcean Droplet ($12/mo)</li>
+          <li>Cloudflare free tier for CDN + SSL</li>
+          <li>Manual testing with pilot clients</li>
+        </ul>
+      </div>
+
+      <div class="phase-card phase-2">
+        <h4>Phase 2 — Production</h4>
+        <div class="phase-label">Month 3–4</div>
+        <ul>
+          <li>Add Redis caching layer</li>
+          <li>Server-side PDF generation (Puppeteer)</li>
+          <li>Email notifications (Resend)</li>
+          <li>Sentry error monitoring</li>
+          <li>GitHub Actions CI/CD pipeline</li>
+          <li>Load testing before full client rollout</li>
+        </ul>
+      </div>
+
+      <div class="phase-card phase-3">
+        <h4>Phase 3 — Scale</h4>
+        <div class="phase-label">Month 5+</div>
+        <ul>
+          <li>AWS ALB + multiple server instances</li>
+          <li>TOTP two-factor authentication</li>
+          <li>Mobile app (React Native)</li>
+          <li>Payment gateway integration</li>
+          <li>Real-time portfolio updates (WebSockets)</li>
+          <li>Regulatory compliance & audit trail</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div class="brand">STI Assets Ltd</div>
+  <p>Full-Stack Architecture Document · Confidential · Feb 2026</p>
+  <p style="color:var(--orange);font-size:13px;font-family:'DM Sans',sans-serif;">Prepared with Claude AI</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Assets Management — Statements</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap">
+                <img src="STI_Logo-removebg-preview.png" alt="STI Assets Management" />
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">&#8592;</button>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-label">Menu</div>
+
+            <a class="nav-item" href="dashboard.html" data-label="Portfolio Overview">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Portfolio Overview</span>
+            </a>
+            <a class="nav-item" href="Myinvestments.html" data-label="My Investments">
+                <span class="nav-icon">📁</span>
+                <span class="nav-text">My Investments</span>
+            </a>
+            <a class="nav-item active" href="statments.html" data-label="Statements">
+                <span class="nav-icon">📄</span>
+                <span class="nav-text">Statements</span>
+            </a>
+            <a class="nav-item" href="Macro-economics.html" data-label="Macro Indicators">
+                <span class="nav-icon">🌍</span>
+                <span class="nav-text">Macro Indicators</span>
+            </a>
+
+            <div class="nav-label">Account</div>
+
+            <a class="nav-item" href="settings.html" data-label="Account">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">Account</span>
+            </a>
+            <a class="nav-item" href="notifications.html" data-label="Notifications">
+                <span class="nav-icon">🔔</span>
+                <span class="nav-text">Notifications</span>
+            </a>
+            <a class="nav-item" href="support.html" data-label="Get Help">
+                <span class="nav-icon">🙋</span>
+                <span class="nav-text">Get Help</span>
+            </a>
+
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="investor-chip">
+                <div class="avatar">IK</div>
+                <div class="chip-info">
+                    <div class="iname">Isaac Kazeem</div>
+                    <div class="iid">ID: 03312</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn">
+                <span class="logout-icon">🚪</span>
+                <span class="logout-text">Sign Out</span>
+            </button>
+        </div>
+
+    </aside>
+
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <button class="mobile-open-pill hidden" id="mobile-open-pill">☰ Menu</button>
+
+    <!-- ═══════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════ -->
+    <main class="main" id="main-content">
+
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Statements</h1>
+                <p>View and export your portfolio statements</p>
+            </div>
+            <div class="topbar-right">
+                <button class="btn-add" onclick="exportStatement()">
+                    <span>⬇</span> Export PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- SELECTOR STRIP -->
+        <div class="stmt-selector-strip">
+            <div class="sform-group" style="margin:0;flex:1;max-width:280px">
+                <label
+                    style="font-size:11px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px">
+                    Investment Reference
+                </label>
+                <select id="stmt-ref" onchange="updateStatement()">
+                    <option value="1">REF-2024-001 — Fixed Income</option>
+                    <option value="2">REF-2024-002 — Money Market</option>
+                    <option value="3">REF-2024-003 — Treasury Bills</option>
+                </select>
+            </div>
+            <div class="sform-group" style="margin:0;flex:1;max-width:240px">
+                <label
+                    style="font-size:11px;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:6px">
+                    Statement Type
+                </label>
+                <select id="stmt-type" onchange="updateStatement()">
+                    <option value="mid">Mid-Tenure Statement</option>
+                    <option value="maturity">Maturity Statement</option>
+                    <option value="annual">Annual Summary</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- STATEMENT PREVIEW -->
+        <div class="stmt-preview-wrap" id="stmt-preview">
+            <div class="stmt-doc" id="stmt-doc">
+
+                <!-- Watermark -->
+                <div class="stmt-watermark">STI ASSETS</div>
+
+                <!-- Header -->
+                <div class="stmt-header">
+                    <div class="stmt-logo-wrap">
+                        <img src="STI_Logo-removebg-preview.png" alt="STI Assets Management" class="stmt-logo" />
+                    </div>
+                    <div class="stmt-header-right">
+                        <div class="stmt-company">STI Assets Management Ltd</div>
+                        <div class="stmt-meta-line">RC: 1234567 &nbsp;|&nbsp; info@stiassetmgt.com &nbsp;|&nbsp; +234
+                            916 543 9544</div>
+                        <div class="stmt-meta-line"><strong>Date:</strong> <span id="stmt-date">January 20, 2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stmt-rule"></div>
+
+                <!-- Title -->
+                <div class="stmt-title-wrap">
+                    <div class="stmt-title" id="stmt-title">Mid-Tenure Portfolio Statement</div>
+                </div>
+
+                <!-- Investor Meta -->
+                <div class="stmt-investor-meta">
+                    <div><span class="stmt-label">Investor Name:</span> <span class="stmt-val">Isaac Kazeem</span></div>
+                    <div><span class="stmt-label">Investor ID:</span> <span class="stmt-val">03312</span></div>
+                    <div><span class="stmt-label">Reference:</span> <span class="stmt-val"
+                            id="stmt-ref-display">REF-2024-001</span></div>
+                </div>
+
+                <!-- Investment Details -->
+                <div class="stmt-section">
+                    <div class="stmt-section-title">Investment Details</div>
+                    <table class="stmt-table">
+                        <tr>
+                            <th>Investment Amount</th>
+                            <td class="stmt-highlight" id="s-amount">₦5,000,000.00</td>
+                        </tr>
+                        <tr>
+                            <th>Tenure</th>
+                            <td id="s-tenure">12 Months</td>
+                        </tr>
+                        <tr>
+                            <th>Start Date</th>
+                            <td id="s-start">July 20, 2024</td>
+                        </tr>
+                        <tr>
+                            <th>Maturity Date</th>
+                            <td id="s-maturity">July 20, 2025</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Performance Summary -->
+                <div class="stmt-section">
+                    <div class="stmt-section-title">Performance Summary</div>
+                    <table class="stmt-table">
+                        <tr>
+                            <th>Interest Rate</th>
+                            <td id="s-rate">18.5% p.a.</td>
+                        </tr>
+                        <tr>
+                            <th>Interest Accrued (To Date)</th>
+                            <td class="stmt-highlight" id="s-accrued">₦462,500.00</td>
+                        </tr>
+                        <tr>
+                            <th>Current Portfolio Value</th>
+                            <td class="stmt-highlight" id="s-value">₦5,462,500.00</td>
+                        </tr>
+                    </table>
+
+                    <div class="stmt-progress-wrap">
+                        <div class="stmt-progress-label">
+                            <span>Tenure Progress</span>
+                            <span class="stmt-pct" id="s-pct">50%</span>
+                        </div>
+                        <div class="stmt-progress-track">
+                            <div class="stmt-progress-fill" id="s-fill" data-width="50"></div>
+                        </div>
+                        <div class="stmt-progress-dates">
+                            <span id="s-start-short">Jul 2024</span>
+                            <span id="s-end-short">Jul 2025</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statement Footer -->
+                <div class="stmt-footer">
+                    <div class="stmt-rule" style="margin-bottom:14px"></div>
+                    <p>For enquiries, please contact your relationship manager or email
+                        <strong>info@stiassetmgt.com</strong> &nbsp;|&nbsp; +234 916 543 9544
+                    </p>
+                    <p class="stmt-disclaimer">
+                        This statement is for informational purposes only and does not constitute a confirmation of
+                        final returns. Investment values are subject to market conditions and contractual terms.
+                        STI Assets Management Ltd is regulated by the Securities and Exchange Commission (SEC) Nigeria.
+                    </p>
+                </div>
+
+            </div><!-- /stmt-doc -->
+        </div><!-- /stmt-preview-wrap -->
+
+        <div class="footer-note">
+            <strong>Note</strong> — Exported PDF statements carry the same information as shown above.
+            For a certified copy stamped and signed, please contact your relationship manager.
+            &nbsp;|&nbsp; <a href="mailto:info@stiassetmgt.com">info@stiassetmgt.com</a>
+        </div>
+
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <script src="login.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STI Admin — Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="admin.css" />
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chart-bar-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chart-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .chart-bar-label {
+            width: 130px;
+            color: var(--text-md);
+            flex-shrink: 0;
+            font-size: 12px;
+        }
+
+        .chart-bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--orange));
+            transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .chart-bar-val {
+            width: 80px;
+            text-align: right;
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .pending-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .pending-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border-lt);
+        }
+
+        .pending-item:last-child {
+            border-bottom: none;
+        }
+
+        .pending-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 2px;
+        }
+
+        .pending-ref {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: 'DM Mono', monospace;
+        }
+
+        .pending-amount {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        @media(max-width:1100px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-wrap"><img src="STI_Logo-removebg-preview.png" alt="STI" /></div>
+        </div>
+        <div class="admin-badge">
+            <div class="admin-badge-dot"></div><span class="admin-badge-text">Admin Portal</span>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Overview</div>
+            <a class="nav-item active" href="admin-dashboard.html" data-label="Dashboard"><span
+                    class="nav-icon">📊</span><span class="nav-text">Dashboard</span></a>
+            <div class="nav-label">Investors</div>
+            <a class="nav-item" href="admin-investors.html" data-label="Investor Management"><span
+                    class="nav-icon">👥</span><span class="nav-text">Investor Management</span></a>
+            <a class="nav-item" href="admin-investments.html" data-label="Investments"><span
+                    class="nav-icon">💼</span><span class="nav-text">Investments</span></a>
+            <a class="nav-item" href="admin-liquidations.html" data-label="Liquidation Requests"><span
+                    class="nav-icon">💸</span><span class="nav-text">Liquidation Requests</span></a>
+            <div class="nav-label">Operations</div>
+            <a class="nav-item" href="admin-support.html" data-label="Support Inbox"><span
+                    class="nav-icon">📩</span><span class="nav-text">Support Inbox</span></a>
+            <a class="nav-item" href="admin-statements.html" data-label="Statement Generator"><span
+                    class="nav-icon">📄</span><span class="nav-text">Statement Generator</span></a>
+            <a class="nav-item" href="admin-users.html" data-label="User Management"><span
+                    class="nav-icon">🔑</span><span class="nav-text">User Management</span></a>
+            <a class="nav-item" href="admin-macro.html" data-label="Macro Indicators"><span
+                    class="nav-icon">🌍</span><span class="nav-text">Macro Indicators</span></a>
+        </nav>
+        <div class="sidebar-bottom">
+            <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-arrow">&#8592;</span><span
+                    class="toggle-label">Collapse</span></button>
+            <div class="investor-chip">
+                <div class="avatar">AD</div>
+                <div class="chip-info">
+                    <div class="iname">Admin User</div>
+                    <div class="iid">STI Staff</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn"><span class="logout-icon">🚪</span><span class="logout-text">Sign
+                    Out</span></button>
+        </div>
+    </aside>
+
+    <main class="main" id="admin-main">
+        <div class="topbar">
+            <div class="topbar-left">
+                <h1>Admin Dashboard</h1>
+                <p>Welcome back — here's a live overview of STI Assets Management</p>
+            </div>
+            <div class="topbar-right">
+                <div class="badge-date" id="today-date"></div>
+                <a href="admin-investments.html" class="btn-orange">＋ New Investment</a>
+            </div>
+        </div>
+
+        <!-- STAT CARDS -->
+        <div class="stats-grid">
+            <div class="stat-card" style="animation-delay:.05s">
+                <div class="stat-icon">🏦</div>
+                <div class="stat-label">Total AUM</div>
+                <div class="stat-value">₦2.4B</div>
+                <div class="stat-badge green">↑ +₦180M this month</div>
+            </div>
+            <div class="stat-card" style="animation-delay:.10s">
+                <div class="stat-icon">👥</div>
+                <div class="stat-label">Active Investors</div>
+                <div class="stat-value">247</div>
+                <div class="stat-badge green">+12 this month</div>
+            </div>
+            <div class="stat-card" style="animation-delay:.15s">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-label">Pending Liquidations</div>
+                <div class="stat-value red">8</div>
+                <div class="stat-badge red">Requires action</div>
+            </div>
+            <div class="stat-card" style="animation-delay:.20s">
+                <div class="stat-icon">📩</div>
+                <div class="stat-label">Open Support Tickets</div>
+                <div class="stat-value orange">14</div>
+                <div class="stat-badge orange">5 urgent</div>
+            </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="dashboard-grid">
+
+            <!-- Portfolio breakdown -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">Portfolio Breakdown by Type</div>
+                </div>
+                <div class="chart-bar-wrap" id="portfolio-bars">
+                    <div class="chart-bar-item">
+                        <span class="chart-bar-label">Fixed Income</span>
+                        <div class="chart-bar-track">
+                            <div class="chart-bar-fill" data-w="72" style="width:0%"></div>
+                        </div>
+                        <span class="chart-bar-val">₦1.73B</span>
+                    </div>
+                    <div class="chart-bar-item">
+                        <span class="chart-bar-label">Money Market</span>
+                        <div class="chart-bar-track">
+                            <div class="chart-bar-fill" data-w="45" style="width:0%"></div>
+                        </div>
+                        <span class="chart-bar-val">₦480M</span>
+                    </div>
+                    <div class="chart-bar-item">
+                        <span class="chart-bar-label">Treasury Bills</span>
+                        <div class="chart-bar-track">
+                            <div class="chart-bar-fill" data-w="28" style="width:0%"></div>
+                        </div>
+                        <span class="chart-bar-val">₦190M</span>
+                    </div>
+                </div>
+
+                <div style="margin-top:24px;">
+                    <div class="panel-title" style="margin-bottom:14px">Recent Activity</div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-dot blue">💰</div>
+                            <div class="activity-body">
+                                <div class="activity-text"><strong>Isaac Kazeem</strong> topped up REF-2024-001 with
+                                    ₦500,000</div>
+                                <div class="activity-time">Today, 10:32am</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot orange">💸</div>
+                            <div class="activity-body">
+                                <div class="activity-text"><strong>Amara Obi</strong> submitted a liquidation request
+                                    for REF-2024-007</div>
+                                <div class="activity-time">Today, 9:14am</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot green">✅</div>
+                            <div class="activity-body">
+                                <div class="activity-text"><strong>Femi Adebayo</strong> investment REF-2024-003 matured
+                                    — ₦6.2M paid out</div>
+                                <div class="activity-time">Yesterday, 4:00pm</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot blue">👤</div>
+                            <div class="activity-body">
+                                <div class="activity-text">New investor account created — <strong>Chidera Nwosu</strong>
+                                </div>
+                                <div class="activity-time">Yesterday, 2:45pm</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-dot red">⚠️</div>
+                            <div class="activity-body">
+                                <div class="activity-text"><strong>Urgent ticket</strong> from Bola Tinuke — Payment not
+                                    received</div>
+                                <div class="activity-time">Yesterday, 11:20am</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending items -->
+            <div>
+                <div class="panel">
+                    <div class="panel-title">Pending Liquidations</div>
+                    <div class="pending-list">
+                        <div class="pending-item">
+                            <div>
+                                <div class="pending-name">Isaac Kazeem</div>
+                                <div class="pending-ref">REF-2024-001</div>
+                            </div>
+                            <div class="pending-amount">₦5,462,500</div>
+                        </div>
+                        <div class="pending-item">
+                            <div>
+                                <div class="pending-name">Amara Obi</div>
+                                <div class="pending-ref">REF-2024-007</div>
+                            </div>
+                            <div class="pending-amount">₦3,100,000</div>
+                        </div>
+                        <div class="pending-item">
+                            <div>
+                                <div class="pending-name">Femi Adebayo</div>
+                                <div class="pending-ref">REF-2024-012</div>
+                            </div>
+                            <div class="pending-amount">₦8,250,000</div>
+                        </div>
+                        <div class="pending-item">
+                            <div>
+                                <div class="pending-name">Zainab Musa</div>
+                                <div class="pending-ref">REF-2024-019</div>
+                            </div>
+                            <div class="pending-amount">₦1,500,000</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <a href="admin-liquidations.html" class="btn-ghost"
+                            style="width:100%;justify-content:center;display:flex;">View All Requests →</a>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">Maturing This Month</div>
+                    <div class="pending-list">
+                        <div class="pending-item">
+                            <div>
+                                <div class="pending-name">Chidera Nwosu</div>
+                                <div class="pending-ref">Due Apr 10, 2025</div>
+                            </div>
+                            <div class="pending-amount">₦2,777,500</div>
+                        </div>
+                        <div class="pending-item">
+                            <div>
+                                <div class="pending-name">Bola Tinuke</div>
+                                <div class="pending-ref">Due Apr 15, 2025</div>
+                            </div>
+                            <div class="pending-amount">₦4,200,000</div>
+                        </div>
+                        <div class="pending-item">
+                            <div>
+                                <div class="pending-name">Emeka Eze</div>
+                                <div class="pending-ref">Due Apr 22, 2025</div>
+                            </div>
+                            <div class="pending-amount">₦9,625,000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <strong>Admin Portal</strong> — Actions taken here are logged and attributed to your admin session. For data
+            exports or bulk operations contact the IT team. &nbsp;|&nbsp; <a
+                href="mailto:it@stiassetmgt.com">it@stiassetmgt.com</a>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                document.querySelectorAll(".chart-bar-fill").forEach(bar => {
+                    bar.style.width = bar.getAttribute("data-w") + "%";
+                });
+            }, 400);
+        });
+    </script>
+</body>
+
+</html>
