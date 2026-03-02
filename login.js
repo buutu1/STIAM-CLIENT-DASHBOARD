@@ -14,7 +14,10 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 // ═══════════════════════════════════════════════════════════
 const _db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON)
 window._db = _db
-
+async function supabaseSignOut() {
+    await _db.auth.signOut()
+    window.location.replace('index.html')
+}
 if (document.getElementById('main-content')) {
     _db.auth.getSession().then(async ({ data: { session } }) => {
         if (!session) { window.location.replace('index.html'); return }
