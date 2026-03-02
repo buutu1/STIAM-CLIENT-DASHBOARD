@@ -100,7 +100,7 @@ async function loadInvestments() {
     console.log('🔄 loadInvestments started, db:', db, 'window._db:', window._db)
     if (!db) { console.error('❌ db is undefined — window._db not set yet'); return }
     const { data: { session } } = await db.auth.getSession()
-    if (!session) { window.location.replace('login-page.html'); return }
+    if (!session) { window.location.replace('index.html'); return }
 
     const uid = session.user.id
     console.log('👤 session:', session, 'uid:', uid)

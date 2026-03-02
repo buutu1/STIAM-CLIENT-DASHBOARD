@@ -17,7 +17,7 @@ window._db = _db
 
 if (document.getElementById('main-content')) {
     _db.auth.getSession().then(async ({ data: { session } }) => {
-        if (!session) { window.location.replace('login-page.html'); return }
+        if (!session) { window.location.replace('index.html'); return }
 
         // Update sidebar chip on every page
         const { data: profile } = await _db
@@ -293,7 +293,7 @@ async function submitReceipt() {
     try {
         const db = window._db
         const { data: { session } } = await db.auth.getSession()
-        if (!session) { window.location.replace('login-page.html'); return }
+        if (!session) { window.location.replace('index.html'); return }
 
         const uid = session.user.id
         const fileExt = selectedReceiptFile.name.split('.').pop()
@@ -391,7 +391,7 @@ async function saveProfile() {
     try {
         const db = window._db
         const { data: { session } } = await db.auth.getSession()
-        if (!session) { window.location.replace('login-page.html'); return }
+        if (!session) { window.location.replace('index.html'); return }
 
         const updates = {
             first_name: firstName.value.trim(),
@@ -518,7 +518,7 @@ async function changePassword() {
 
         // Re-authenticate with current password first
         const { data: { session } } = await db.auth.getSession()
-        if (!session) { window.location.replace('login-page.html'); return }
+        if (!session) { window.location.replace('index.html'); return }
 
         const { error: signInError } = await db.auth.signInWithPassword({
             email: session.user.email,
@@ -586,7 +586,7 @@ async function submitSupportTicket() {
     try {
         const db = window._db
         const { data: { session } } = await db.auth.getSession()
-        if (!session) { window.location.replace('login-page.html'); return }
+        if (!session) { window.location.replace('index.html'); return }
 
         // Generate ticket number
         const ticketNumber = 'TKT-' + Date.now().toString().slice(-6)

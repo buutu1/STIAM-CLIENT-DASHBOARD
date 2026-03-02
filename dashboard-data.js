@@ -35,7 +35,7 @@ async function loadDashboard() {
     const db = window._db
     if (!db) { console.error('❌ db is undefined'); return }
     const { data: { session } } = await db.auth.getSession()
-    if (!session) { window.location.replace('login-page.html'); return }
+    if (!session) { window.location.replace('index.html'); return }
 
     const uid = session.user.id
 
